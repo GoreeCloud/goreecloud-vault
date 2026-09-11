@@ -30,7 +30,21 @@ class RepositoryReadinessTests(unittest.TestCase):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text, encoding="utf-8")
 
+    def platform_system_lines(self) -> str:
+        return "\n".join(VALIDATOR.PLATFORM_SYSTEMS) + "\n"
+
     def write_canonical_product_records(self) -> None:
+        systems = self.platform_system_lines()
+        self.write(
+            "CONTRIBUTING.md",
+            "GoreeVault is retired. GoreeCloud Vault Web is current.\n"
+            "Use goreecloud.platform.yaml and preserve its fail-closed state.\n",
+        )
+        self.write(
+            "USER-MANUAL.md",
+            "GoreeVault is retired.\n## GoreeCloud Vault Web Argon2id work\n"
+            "Use goreecloud.platform.yaml; it records overall conformance as nonconformant.\n" + systems,
+        )
         self.write(
             "docs/ROADMAP.md",
             "GoreeVault is retired.\n"
@@ -44,7 +58,9 @@ class RepositoryReadinessTests(unittest.TestCase):
             "docs/OPEN-READINESS-BLOCKERS.md",
             "GoreeVault is retired. Historical compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain.\n"
             "## Blocker 5 — Product-wide Glaze UI ownership and GoreeCloud Vault Web completion\n"
-            "GoreeCloud/goreecloud-vault-web\n",
+            "GoreeCloud/goreecloud-vault-web\n"
+            "## Blocker 7 — Integral Platform System acceptance\n"
+            "overall service conformance as nonconformant\n",
         )
         self.write(
             "docs/RC-EVIDENCE.md",
@@ -52,7 +68,36 @@ class RepositoryReadinessTests(unittest.TestCase):
             "The future GoreeCloud Vault Web boundary remains blocked.\n"
             "Transactional email presentation uses the documented GoreeCloud Vault family identity.\n"
             "GoreeVault workflow labels are legacy automation identifiers.\n"
-            "goreevault-stable-evidence.json is a compatibility-era evidence filename.\n",
+            "goreevault-stable-evidence.json is a compatibility-era evidence filename.\n"
+            "## Integral Platform System acceptance\n"
+            "All applicable Integral Platform Systems independently accepted for this candidate: NO\n"
+            "schema-version-2 `goreevault-stable-evidence.json` has no dedicated fields\n" + systems,
+        )
+        self.write(
+            "docs/REPOSITORY-STRUCTURE.md",
+            "GoreeVault is retired.\n### `VAULT.md`\n### `goreecloud.platform.yaml`\n"
+            "### `web-client/`\nGoreeCloud/goreecloud-vault-web\n",
+        )
+        self.write(
+            "docs/PRODUCTION-READINESS.md",
+            "GoreeVault is retired.\n## Integral Platform System acceptance\n"
+            "Use goreecloud.platform.yaml. schema version 2 does not accept ad hoc platform-system fields.\n" + systems,
+        )
+        self.write(
+            "docs/SECURITY-MODEL.md",
+            "GoreeVault is retired.\n"
+            "Do not claim Wardveil Security, Privacy Shield, Everkeep, GoreeCloud Mesh, GoreeCloud Identity, GoreeCloud Manager, or Glaze UI acceptance without evidence.\n",
+        )
+        self.write(
+            "docs/STABLE-EVIDENCE.md",
+            "GoreeVault is retired.\n### Integral Platform System boundary\n"
+            "The schema-version-2 JSON does **not** contain dedicated evidence objects for all systems.\n"
+            "Do not add ad hoc fields to the Stable JSON.\n"
+            "A passing file does not prove overall GoreeCloud Platform Contract conformance.\n",
+        )
+        self.write(
+            "docs/UPSTREAM.md",
+            "GoreeVault is retired. The audit is a point-in-time historical snapshot.\n",
         )
 
     def test_codeowners_requires_core_goreecloud_ownership(self) -> None:
@@ -157,6 +202,26 @@ class RepositoryReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "open readiness tracker is missing blocker"):
             VALIDATOR.validate_goreecloud_gates()
 
+    def test_open_blocker_tracker_requires_platform_acceptance(self) -> None:
+        blockers = "\n".join(
+            (
+                "Status:** Stable blocked",
+                "GitHub repository governance",
+                "Real supported-client matrix",
+                "Real WebAuthn/passkey path",
+                "Target-environment production rehearsal",
+                "Product-wide Glaze UI ownership",
+                "Exact-RC Stable evidence",
+            )
+        )
+        self.write("VAULT.md", "GoreeCloud Vault\n**GoreeVault** is retired\n")
+        self.write("docs/PRODUCTION-READINESS.md", "multi-user security Glaze UI\nStable is therefore blocked\n")
+        self.write("docs/GLAZE-UI.md", "temporary development divergence\nNo production Glaze UI exception is approved\n")
+        self.write("docs/STABLE-EVIDENCE.md", "Schema version 2\n")
+        self.write("docs/OPEN-READINESS-BLOCKERS.md", blockers + "\n")
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "Integral Platform System acceptance"):
+            VALIDATOR.validate_goreecloud_gates()
+
     def test_canonical_product_records_accept_legacy_identifiers_when_classified(self) -> None:
         self.write_canonical_product_records()
         VALIDATOR.validate_canonical_product_records()
@@ -168,9 +233,17 @@ class RepositoryReadinessTests(unittest.TestCase):
             "GoreeVault is retired. Historical compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain.\n"
             "`GoreeVault` remains the broader client-family.\n"
             "## Blocker 5 — Product-wide Glaze UI ownership and GoreeCloud Vault Web completion\n"
-            "GoreeCloud/goreecloud-vault-web\n",
+            "GoreeCloud/goreecloud-vault-web\n"
+            "## Blocker 7 — Integral Platform System acceptance\n"
+            "overall service conformance as nonconformant\n",
         )
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "retired current-product wording"):
+            VALIDATOR.validate_canonical_product_records()
+
+    def test_canonical_product_records_require_platform_schema_boundary(self) -> None:
+        self.write_canonical_product_records()
+        self.write("docs/STABLE-EVIDENCE.md", "GoreeVault is retired.\n### Integral Platform System boundary\n")
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "missing canonical GoreeCloud Vault policy controls"):
             VALIDATOR.validate_canonical_product_records()
 
     def test_stable_template_requires_multi_user_and_glaze_fields(self) -> None:
