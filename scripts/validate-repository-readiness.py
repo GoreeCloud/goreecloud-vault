@@ -44,6 +44,16 @@ FORBIDDEN_INHERITED_REPOSITORY_UX = {
     ".github/ISSUE_TEMPLATE/config.yml": "the inherited Vaultwarden support-routing links are not GoreeCloud support paths",
 }
 
+PLATFORM_SYSTEMS = (
+    "GoreeCloud Manager",
+    "Privacy Shield",
+    "Wardveil Security",
+    "Everkeep",
+    "Glaze UI",
+    "GoreeCloud Mesh",
+    "GoreeCloud Identity",
+)
+
 
 class ReadinessError(ValueError):
     pass
@@ -82,7 +92,7 @@ def validate_readme() -> None:
     require("multi-user" in text.lower(), "README.md must document GoreeCloud Vault Server multi-user readiness")
     require("Glaze UI" in text, "README.md must document Glaze UI")
     require("not approved" in text.lower(), "README.md must state the current non-Stable production boundary")
-    for system in ("GoreeCloud Manager", "Privacy Shield", "Wardveil Security", "Everkeep", "Glaze UI", "GoreeCloud Mesh", "GoreeCloud Identity"):
+    for system in PLATFORM_SYSTEMS:
         require(system in text, f"README.md must evaluate current platform system: {system}")
 
 
@@ -164,19 +174,46 @@ def validate_goreecloud_gates() -> None:
     require("No production Glaze UI exception is approved" in glaze, "docs/GLAZE-UI.md must not silently approve an upstream styling exception")
     require("Stable is therefore blocked" in readiness, "docs/PRODUCTION-READINESS.md must explicitly block Stable while required acceptance is incomplete")
     require("Schema version 2" in stable, "docs/STABLE-EVIDENCE.md must use the multi-user/Glaze-aware Stable evidence schema")
-    for blocker in ("GitHub repository governance", "Real supported-client matrix", "Real WebAuthn/passkey path", "Target-environment production rehearsal", "Product-wide Glaze UI ownership", "Exact-RC Stable evidence"):
+    for blocker in (
+        "GitHub repository governance",
+        "Real supported-client matrix",
+        "Real WebAuthn/passkey path",
+        "Target-environment production rehearsal",
+        "Product-wide Glaze UI ownership",
+        "Exact-RC Stable evidence",
+        "Integral Platform System acceptance",
+    ):
         require(blocker in blockers, f"open readiness tracker is missing blocker: {blocker}")
     require("Status:** Stable blocked" in blockers, "open readiness tracker must preserve the Stable-blocked state")
 
 
 def validate_canonical_product_records() -> None:
     records = {
+        "CONTRIBUTING.md": read("CONTRIBUTING.md"),
+        "USER-MANUAL.md": read("USER-MANUAL.md"),
         "docs/ROADMAP.md": read("docs/ROADMAP.md"),
         "docs/OPEN-READINESS-BLOCKERS.md": read("docs/OPEN-READINESS-BLOCKERS.md"),
         "docs/RC-EVIDENCE.md": read("docs/RC-EVIDENCE.md"),
+        "docs/REPOSITORY-STRUCTURE.md": read("docs/REPOSITORY-STRUCTURE.md"),
+        "docs/PRODUCTION-READINESS.md": read("docs/PRODUCTION-READINESS.md"),
+        "docs/SECURITY-MODEL.md": read("docs/SECURITY-MODEL.md"),
+        "docs/STABLE-EVIDENCE.md": read("docs/STABLE-EVIDENCE.md"),
+        "docs/UPSTREAM.md": read("docs/UPSTREAM.md"),
     }
 
     required = {
+        "CONTRIBUTING.md": (
+            "GoreeVault is retired",
+            "GoreeCloud Vault Web",
+            "goreecloud.platform.yaml",
+            "fail-closed",
+        ),
+        "USER-MANUAL.md": (
+            "GoreeVault is retired",
+            "GoreeCloud Vault Web Argon2id work",
+            "goreecloud.platform.yaml",
+            "overall conformance as nonconformant",
+        ),
         "docs/ROADMAP.md": (
             "GoreeVault is retired",
             "GoreeCloud Vault Web foundation",
@@ -190,6 +227,8 @@ def validate_canonical_product_records() -> None:
             "GoreeCloud Vault Web completion",
             "GoreeCloud/goreecloud-vault-web",
             "compatibility-sensitive `GoreeVault`/`goreevault` identifiers",
+            "Blocker 7 — Integral Platform System acceptance",
+            "overall service conformance as nonconformant",
         ),
         "docs/RC-EVIDENCE.md": (
             "GoreeVault is retired",
@@ -197,33 +236,66 @@ def validate_canonical_product_records() -> None:
             "Transactional email presentation uses the documented GoreeCloud Vault family identity",
             "legacy automation identifiers",
             "compatibility-era evidence filename",
+            "## Integral Platform System acceptance",
+            "All applicable Integral Platform Systems independently accepted for this candidate: NO",
+            "schema-version-2 `goreevault-stable-evidence.json` has no dedicated fields",
+        ),
+        "docs/REPOSITORY-STRUCTURE.md": (
+            "GoreeVault is retired",
+            "### `VAULT.md`",
+            "### `goreecloud.platform.yaml`",
+            "### `web-client/`",
+            "GoreeCloud/goreecloud-vault-web",
+        ),
+        "docs/PRODUCTION-READINESS.md": (
+            "GoreeVault is retired",
+            "## Integral Platform System acceptance",
+            "goreecloud.platform.yaml",
+            "schema version 2 does not accept ad hoc platform-system fields",
+        ),
+        "docs/SECURITY-MODEL.md": (
+            "GoreeVault is retired",
+            "Do not claim Wardveil Security, Privacy Shield, Everkeep, GoreeCloud Mesh, GoreeCloud Identity, GoreeCloud Manager, or Glaze UI acceptance",
+        ),
+        "docs/STABLE-EVIDENCE.md": (
+            "GoreeVault is retired",
+            "### Integral Platform System boundary",
+            "schema-version-2 JSON does **not** contain dedicated evidence objects",
+            "Do not add ad hoc fields to the Stable JSON",
+            "overall GoreeCloud Platform Contract conformance",
+        ),
+        "docs/UPSTREAM.md": (
+            "GoreeVault is retired",
+            "point-in-time historical snapshot",
         ),
     }
     for path, tokens in required.items():
         missing = [token for token in tokens if token not in records[path]]
-        require(not missing, f"{path} is missing canonical GoreeCloud Vault naming controls: {', '.join(missing)}")
+        require(not missing, f"{path} is missing canonical GoreeCloud Vault policy controls: {', '.join(missing)}")
 
-    forbidden = {
-        "docs/ROADMAP.md": (
-            "preserving **GoreeVault** for the client family",
-            "## v0.3.0 — GoreeVault Web foundation",
-            "## v0.4.0 — GoreeVault Browser foundation",
-            "## v0.5.0 — GoreeVault Desktop foundation",
-            "## v0.6.0 — GoreeVault Mobile foundation",
-        ),
-        "docs/OPEN-READINESS-BLOCKERS.md": (
-            "`GoreeVault` remains the broader client-family",
-            "approved current path is GoreeVault Web",
-            "GoreeCloud/goreevault-web",
-        ),
-        "docs/RC-EVIDENCE.md": (
-            "`GoreeVault` remains the broader client-family",
-            "documented GoreeVault-family identity",
-            "future GoreeVault Web boundary",
-        ),
-    }
-    for path, phrases in forbidden.items():
-        stale = [phrase for phrase in phrases if phrase in records[path]]
+    for path in ("USER-MANUAL.md", "docs/PRODUCTION-READINESS.md", "docs/RC-EVIDENCE.md"):
+        for system in PLATFORM_SYSTEMS:
+            require(system in records[path], f"{path} is missing Integral Platform System: {system}")
+
+    forbidden_phrases = (
+        "`GoreeVault` remains the broader client-family",
+        "GoreeVault remains a broader client-family",
+        "GoreeVault remains the broader client-family",
+        "Do not rename the GoreeVault client family",
+        "until GoreeVault owns the primary browser vault",
+        "future GoreeVault Web boundary",
+        "future GoreeVault Web",
+        "approved current path is GoreeVault Web",
+        "documented GoreeVault-family identity",
+        "## v0.3.0 — GoreeVault Web foundation",
+        "## v0.4.0 — GoreeVault Browser foundation",
+        "## v0.5.0 — GoreeVault Desktop foundation",
+        "## v0.6.0 — GoreeVault Mobile foundation",
+        "GoreeCloud/goreevault-web",
+        "### `GOREVAULT.md`",
+    )
+    for path, text in records.items():
+        stale = [phrase for phrase in forbidden_phrases if phrase in text]
         require(not stale, f"{path} contains retired current-product wording: {', '.join(stale)}")
 
 
