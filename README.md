@@ -1,120 +1,91 @@
 # GoreeCloud Vault Server
 
-GoreeCloud Vault Server is GoreeCloud's self-hosted, zero-knowledge credential server. It is a GoreeCloud-maintained derivative of Vaultwarden that preserves Bitwarden-client compatibility while GoreeCloud builds an independently governed, recoverable, security-reviewed credential platform.
+GoreeCloud Vault Server is the synchronized backend for **GoreeCloud Vault**, GoreeCloud's planned zero-knowledge credential, password, passkey, secret, recovery-information, secure-note, and encrypted-vault platform.
 
 > [!IMPORTANT]
-> GoreeCloud Vault Server is under active stabilization. The current source line is **not approved for GoreeCloud Stable production use**. Release Candidate and Stable promotion are controlled by the evidence gates in `docs/PRODUCTION-READINESS.md`.
+> GoreeCloud Vault Server is in **Active Development** and is **not approved for GoreeCloud Stable production use**. Source validation, compatibility tests, or a working deployment do not substitute for the release and platform evidence required by `docs/PRODUCTION-READINESS.md`.
 
 ## Canonical identity
 
-The canonical server name is **GoreeCloud Vault Server** and the canonical repository is `GoreeCloud/goreecloud-vault-server`.
+The canonical product family is **GoreeCloud Vault**. The canonical backend is **GoreeCloud Vault Server**, and this repository is `GoreeCloud/goreecloud-vault-server`.
 
-`GoreeVault` remains the broader client-family and historical project identity where explicitly documented. New server-facing documentation, administration surfaces, release notes, and deployment records must use **GoreeCloud Vault Server**. See `docs/SERVER-IDENTITY.md` and `docs/server-identity.json`.
+The former product name **GoreeVault is retired**. It may appear only where required to preserve historical evidence or a compatibility-sensitive legacy implementation identifier. It must not be presented as a current product, client family, application, service, or brand.
 
-## Product role
+Current family names are:
 
-GoreeCloud Vault Server is designed to provide secure multi-user credential storage for individual GoreeCloud users while preserving private-data boundaries between accounts and the client-side encryption model inherited from the compatible Bitwarden/Vaultwarden ecosystem.
+- **GoreeCloud Vault**
+- **GoreeCloud Vault Server**
+- **GoreeCloud Vault Web**
+- **GoreeCloud Vault Browser**
+- **GoreeCloud Vault Desktop**
+- **GoreeCloud Vault Mobile**
+- **GoreeCloud Vault CLI**
 
-The long-term GoreeVault product family is:
+See `VAULT.md`, `docs/SERVER-IDENTITY.md`, and `docs/server-identity.json` for the product and server naming boundaries.
 
-- **GoreeCloud Vault Server** — this repository; API, persistence, authentication, authorization, recovery, and server-side operations;
-- **GoreeVault Web** — planned GoreeCloud-owned browser vault using Glaze UI; implementation boundary defined in `docs/WEB-CLIENT-CONTRACT.md`;
-- **GoreeVault Browser** — planned Firefox and Chromium extensions;
-- **GoreeVault Desktop** — planned desktop client;
-- **GoreeVault Mobile** — planned Android-first mobile client with additional platform planning as appropriate.
+## Architecture and migration state
 
-GoreeCloud Vault Server does not invent new cryptographic primitives merely to create product differentiation. Compatibility-sensitive cryptography, KDF behavior, token behavior, WebAuthn/passkey handling, database migrations, and protocol semantics remain security-reviewed boundaries.
+The current server remains a Vaultwarden-derived transitional implementation because compatibility, migration, recovery, cryptographic, and protocol risks make an immediate replacement unsafe. The long-term product-defining architecture must become original GoreeCloud-owned software. Mature cryptographic primitives, standards, protocol implementations, database engines, and other narrowly justified foundations may remain where replacing them would materially increase risk.
 
-## Current status
+Open PR #41 contains a separately reviewed native GoreeCloud Vault Server foundation. This naming and platform-contract work does not merge, supersede, or falsely complete that native migration.
 
-The current stabilization chain has established automated evidence for:
+Protected vault contents remain client-encrypted where required by the compatible zero-knowledge model. The server must not require plaintext access to protected passwords, notes, private keys, passkey private material, payment information, or other protected vault content merely to synchronize it.
 
-- PostgreSQL startup and migrations;
-- closed-registration behavior;
-- isolated multi-user account behavior and organization/collection authorization boundaries;
-- login, sync, personal cipher CRUD, attachments, TOTP, and WebAuthn compatibility behavior;
-- single-use and concurrent refresh-token replay protection;
-- destructive PostgreSQL plus `/data` recovery rehearsal;
-- Vaultwarden-to-GoreeCloud Vault Server migration and rollback rehearsal;
-- source and production-image HIGH/CRITICAL vulnerability gates;
-- AMD64/ARM64 OCI release-image preflight;
-- digest-pinned hardened production Compose validation;
-- GoreeCloud-owned Glaze UI source conformance;
-- fail-closed Stable-release evidence validation;
-- read-only target-environment evidence collection tooling with no-Docker unit tests;
-- a documented GoreeVault Web security, multi-user, browser-storage, Glaze UI, accessibility, release, migration, and rollback contract;
-- a controlled loopback-only HTTPS origin for real-browser Argon2id validation evidence.
+## Multi-user and authorization model
 
-Stable remains blocked until every requirement in `docs/PRODUCTION-READINESS.md` is satisfied, including real supported-client testing, a real WebAuthn/passkey path, target-environment evidence, repository governance, multi-user readiness evidence, and product-wide Glaze UI compliance.
+GoreeCloud Vault Server is a multi-user service. Stable qualification requires evidence for individual accounts, private-vault isolation, organizations and collections, permission changes, revocation, device/session lifecycle controls, sharing boundaries, and fail-closed authorization independent of private-network membership.
 
-## Mandatory GoreeCloud platform gates
+## GoreeCloud Integral Platform Systems
 
-Stable qualification requires current, validated evidence for all four mandatory GoreeCloud platform systems. Passing repository CI, compatibility tests, or deployment validation does not substitute for these gates.
+Every release and migration review must evaluate all seven current GoreeCloud Integral Platform Systems:
 
-- **Glaze UI** — every GoreeCloud-controlled user-facing interface must satisfy the approved presentation, accessibility, adaptive-layout, appearance, and interaction contract.
-- **Wardveil Security** — the applicable security, protection, trust-state, diagnostics, and evidence-backed security integration must be implemented and validated for the release candidate and target environment.
-- **Privacy Shield** — privacy controls, data minimization, sensitive-data handling, retention boundaries, and application adapters must be implemented and validated rather than inferred from encryption or private networking alone.
-- **Everkeep** — backup, restore, rollback, preservation, portability, continuity, and recovery obligations must be implemented and validated for the applicable server, client, and target-environment scope.
+- **GoreeCloud Manager** — operational, lifecycle, administrative, and health visibility;
+- **Privacy Shield** — data minimization, privacy authorization, retention, telemetry, logging, deletion, and privacy-state controls;
+- **Wardveil Security** — security policy, trust, protective controls, threat handling, and evidence;
+- **Everkeep** — backup, restore, rollback, preservation, migration, portability, and continuity;
+- **Glaze UI** — current GoreeCloud presentation, accessibility, adaptive behavior, and interaction requirements;
+- **GoreeCloud Mesh** — governed capability, coordination, and interoperability interfaces where applicable;
+- **GoreeCloud Identity** — identity and account integration without collapsing Vault's encryption or application-authorization boundaries.
 
-A missing, materially outdated, failed, or unverified mandatory platform gate keeps GoreeCloud Vault Server non-Stable. These requirements are additive to the exact-RC, multi-user, real-client, WebAuthn, governance, migration, recovery, and target-environment evidence already required by the release process.
+Current platform state is recorded fail-closed in `goreecloud.platform.yaml`. Missing or unaccepted integration keeps this service nonconformant and non-Stable.
 
 ## Glaze UI
 
-**Glaze UI is mandatory for every GoreeCloud-controlled user-facing interface.**
+Every GoreeCloud-controlled Vault interface must follow the current applicable Stable Glaze UI contract. The server-owned Admin and error surfaces are governed by `docs/GLAZE-UI.md`. The bundled upstream-compatible web vault is transitional and is not a permanent production presentation exception.
 
-The server-owned Admin and error surfaces use the repository-local Glaze UI contract in `docs/GLAZE-UI.md`. The bundled upstream-compatible web vault is currently a transitional compatibility dependency and is not treated as a permanent production exception. GoreeVault will not claim product-wide Glaze UI compliance or Stable readiness while that upstream presentation remains the primary browser vault unless a separately approved GoreeCloud exception satisfies the full exception standard.
+The primary GoreeCloud browser experience is planned as **GoreeCloud Vault Web**. Product-wide Glaze UI acceptance remains separate from source-level server-surface validation.
 
-The planned GoreeVault Web client is the intended product-wide Glaze UI browser surface. `docs/WEB-CLIENT-CONTRACT.md` defines that client's required zero-knowledge, multi-user, privacy, accessibility, dependency, release, migration, and rollback boundaries before implementation begins.
+## Security and privacy posture
 
-## Multi-user and privacy model
-
-GoreeCloud Vault Server is not a single-user application. Production readiness requires:
-
-- an individual account or identity for each user;
-- authorization boundaries between users;
-- isolation of private vault data;
-- controlled organization and collection sharing;
-- no shared administrator account as a substitute for user identity;
-- security controls that remain effective even when private networking is present.
-
-The server treats encrypted vault content as opaque client-controlled ciphertext where required by the compatible zero-knowledge model.
-
-## Security posture
-
-Security-sensitive work is intentionally conservative.
-
-- Do not invent or casually replace cryptographic primitives.
+- Do not invent proprietary cryptography for branding or code-ownership goals.
 - Do not use production vault exports, production databases, real credentials, or private user data in tests.
-- Do not directly expose the GoreeCloud Vault Server backend listener to the public internet.
-- Production HTTPS/WSS terminates at the trusted GoreeCloud reverse proxy.
-- Production image references must be immutable digests.
-- Public registration is closed by default.
-- `/admin` is disabled by default in the production deployment contract.
-- Secrets and reusable credentials must remain outside source control and ordinary documentation.
-- Target-environment evidence collection must remain read-only and must not serialize container environment values or reusable secrets.
+- Do not expose the backend listener directly to the public Internet without an explicitly approved hardened architecture.
+- Production images must use immutable release identities.
+- Public registration remains closed by default in the reviewed production contract.
+- Reusable secrets must remain outside source control and ordinary documentation.
+- Stable evidence must remain exact-candidate, privacy-minimized, and fail-closed.
 
 See `SECURITY.md`, `docs/SECURITY-MODEL.md`, and `docs/PRODUCTION-DEPLOYMENT.md`.
 
 ## Repository structure
 
-The repository is intentionally split by responsibility:
-
 ```text
 .github/       GitHub Actions, CODEOWNERS, release and security automation
-deploy/        GoreeCloud production deployment contract and environment template
-docker/        upstream-compatible image build inputs and generated Dockerfiles
-docs/          architecture, identity, readiness, Glaze UI, client, recovery and governance records
-migrations/    database migrations
-scripts/       validation, compatibility, evidence, release-readiness and operational checks
-src/           Rust server runtime plus GoreeCloud-owned server presentation
-tests/         compatibility and release-blocking regression/tooling coverage
+deploy/        reviewed deployment contracts and environment templates
+docker/        transitional upstream-compatible image build inputs
+docs/          architecture, identity, readiness, recovery, UI and governance records
+migrations/    compatibility-sensitive database migrations
+scripts/       validation, evidence, migration and release tooling
+src/           transitional Rust server runtime plus GoreeCloud-owned server presentation
+tests/         compatibility and release-blocking regression coverage
+native/        proposed long-term GoreeCloud-owned server boundary when accepted
 ```
 
-See `docs/REPOSITORY-STRUCTURE.md` before adding a new top-level component or moving a compatibility-sensitive file. Current operator and user-facing guidance is summarized in `USER-MANUAL.md`.
+See `docs/REPOSITORY-STRUCTURE.md` before changing a product-defining or compatibility-sensitive boundary.
 
 ## Development validation
 
-Run the checks relevant to the change. Important GoreeCloud-owned validators include:
+Run the checks relevant to a change. Important repository-owned validators include:
 
 ```bash
 python3 scripts/validate-repository-readiness.py
@@ -125,50 +96,14 @@ bash scripts/validate-production-deployment.sh
 bash scripts/compat.sh
 ```
 
-Stable evidence is validated with:
-
-```bash
-python3 scripts/validate-stable-evidence.py goreevault-stable-evidence.json \
-  --expected-source-sha '<40-character RC source SHA>' \
-  --expected-rc-tag 'vX.Y.Z-rc.N' \
-  --expected-manifest-digest 'sha256:<64-hex manifest digest>'
-```
-
-Every non-approval evidence timestamp must be at or before the bundle `collected_at` instant. Final approvals must be at or after the latest non-approval evidence instant and still at or before `collected_at`; an approval that predates evidence gathered later is not a final approval of that bundle. Timezone-aware timestamps are compared as absolute instants, and this rule does not introduce an arbitrary evidence-expiration window.
-
-After a real target-environment rehearsal, `scripts/collect-target-evidence.py` can produce only the non-secret `target_environment` section described by `docs/STABLE-EVIDENCE.md`. It does not deploy GoreeCloud Vault Server and does not create a complete Stable evidence record.
-
-GitHub Actions runs the repository's release-blocking checks against exact pull-request revisions.
-
-## Deployment boundary
-
-Do not deploy from a floating image tag or copy an upstream `latest` example into GoreeCloud production.
-
-The reviewed GoreeCloud Vault Server production model is defined by:
-
-- `deploy/compose.production.yaml`;
-- `deploy/.env.production.example`;
-- `docs/PRODUCTION-DEPLOYMENT.md`;
-- `scripts/validate-production-deployment.sh`;
-- `scripts/collect-target-evidence.py` for post-rehearsal read-only evidence collection.
-
-The production contract requires immutable GoreeCloud Vault Server and PostgreSQL image digests, loopback-only backend publication, an internal database network, a non-root and capability-free steady-state server, a read-only root filesystem, and trusted reverse-proxy HTTPS/WSS.
+Historical workflow names, evidence filenames, local-storage keys, or other internal identifiers containing `goreevault` may remain temporarily when renaming them could break retained evidence, CI history, user preferences, migration tooling, or compatibility. Such identifiers are legacy implementation details, not current product identity, and should be migrated through controlled follow-up work.
 
 ## Upstream provenance
 
-GoreeCloud Vault Server begins from Vaultwarden and deliberately keeps portions of the upstream architecture and internal identity where changing them would increase security risk, compatibility risk, or upstream-maintenance cost.
-
-- Upstream project: **Vaultwarden**
-- Upstream repository: `dani-garcia/vaultwarden`
-- Initial GoreeCloud Vault Server baseline: `0cefa4cca7c9f2a5579dd290f78193b543818c51`
-- License: **AGPL-3.0-only**
-
-The original `LICENSE.txt`, copyright notices, attribution, and source-availability obligations remain part of this repository. See `GOREVAULT.md`, `docs/SERVER-IDENTITY.md`, and `docs/UPSTREAM.md` for the maintained-fork and naming boundaries.
+The current transitional runtime derives from **Vaultwarden** (`dani-garcia/vaultwarden`) under AGPL-3.0-only. Required license, copyright, attribution, and source-availability obligations remain intact. Upstream provenance does not make Vaultwarden or the retired GoreeVault name the current GoreeCloud product identity.
 
 GoreeCloud Vault Server is not affiliated with or endorsed by Bitwarden, Inc. Bitwarden is a trademark of its respective owner.
 
-## Contributing and security reports
+## Release boundary
 
-Read `CONTRIBUTING.md` before proposing changes. Compatibility, authorization, cryptography, persistence, release, deployment, evidence, and UI changes require evidence appropriate to their risk.
-
-Do not publish exploit details in a public issue. Follow `SECURITY.md` for vulnerability reporting.
+Stable remains blocked until the exact release candidate satisfies the required native-development, security, privacy, accessibility, multi-user, supported-client, WebAuthn/passkey, migration, rollback, target-environment, repository-governance, recovery, Glaze UI, and seven-system platform acceptance gates. No documentation or naming change can waive those requirements.

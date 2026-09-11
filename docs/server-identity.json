@@ -1,16 +1,20 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "canonical_name": "GoreeCloud Vault Server",
+  "product_family_name": "GoreeCloud Vault",
   "short_name": "Vault Server",
   "repository": "GoreeCloud/goreecloud-vault-server",
   "canonical_service_url": "https://vault.goreecloud.com",
   "former_server_name": "GoreeVault Server",
-  "client_family_name": "GoreeVault",
+  "retired_product_name": "GoreeVault",
+  "development_model": "forked-to-native-transitional",
   "upstream_project": "Vaultwarden",
   "upstream_repository": "dani-garcia/vaultwarden",
-  "development_model": "goreecloud-maintained-fork-with-controlled-fork-to-native-transition",
   "design_language": "Glaze UI",
-  "security_identity": "Wardveil Security by GoreeCloud",
+  "security_framework": "Wardveil Security",
+  "privacy_framework": "Privacy Shield",
+  "continuity_framework": "Everkeep",
   "license": "AGPL-3.0-only",
-  "status": "active"
+  "lifecycle": "development",
+  "stable_approved": false
 }
