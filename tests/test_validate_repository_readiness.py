@@ -30,6 +30,31 @@ class RepositoryReadinessTests(unittest.TestCase):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text, encoding="utf-8")
 
+    def write_canonical_product_records(self) -> None:
+        self.write(
+            "docs/ROADMAP.md",
+            "GoreeVault is retired.\n"
+            "## v0.3.0 — GoreeCloud Vault Web foundation\n"
+            "## v0.4.0 — GoreeCloud Vault Browser foundation\n"
+            "## v0.5.0 — GoreeCloud Vault Desktop foundation\n"
+            "## v0.6.0 — GoreeCloud Vault Mobile foundation\n"
+            "GoreeCloud/goreecloud-vault-web\n",
+        )
+        self.write(
+            "docs/OPEN-READINESS-BLOCKERS.md",
+            "GoreeVault is retired. Historical compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain.\n"
+            "## Blocker 5 — Product-wide Glaze UI ownership and GoreeCloud Vault Web completion\n"
+            "GoreeCloud/goreecloud-vault-web\n",
+        )
+        self.write(
+            "docs/RC-EVIDENCE.md",
+            "GoreeVault is retired.\n"
+            "The future GoreeCloud Vault Web boundary remains blocked.\n"
+            "Transactional email presentation uses the documented GoreeCloud Vault family identity.\n"
+            "GoreeVault workflow labels are legacy automation identifiers.\n"
+            "goreevault-stable-evidence.json is a compatibility-era evidence filename.\n",
+        )
+
     def test_codeowners_requires_core_goreecloud_ownership(self) -> None:
         self.write(".github/CODEOWNERS", "/README.md @GoreeCloud\n")
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "CODEOWNERS is missing"):
@@ -131,6 +156,22 @@ class RepositoryReadinessTests(unittest.TestCase):
         self.write("docs/OPEN-READINESS-BLOCKERS.md", "Status:** Stable blocked\nGitHub repository governance\n")
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "open readiness tracker is missing blocker"):
             VALIDATOR.validate_goreecloud_gates()
+
+    def test_canonical_product_records_accept_legacy_identifiers_when_classified(self) -> None:
+        self.write_canonical_product_records()
+        VALIDATOR.validate_canonical_product_records()
+
+    def test_canonical_product_records_reject_stale_current_client_family(self) -> None:
+        self.write_canonical_product_records()
+        self.write(
+            "docs/OPEN-READINESS-BLOCKERS.md",
+            "GoreeVault is retired. Historical compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain.\n"
+            "`GoreeVault` remains the broader client-family.\n"
+            "## Blocker 5 — Product-wide Glaze UI ownership and GoreeCloud Vault Web completion\n"
+            "GoreeCloud/goreecloud-vault-web\n",
+        )
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "retired current-product wording"):
+            VALIDATOR.validate_canonical_product_records()
 
     def test_stable_template_requires_multi_user_and_glaze_fields(self) -> None:
         self.write("docs/stable-evidence.example.json", '{"schema_version": 2, "multi_user": {}}\n')
