@@ -4,7 +4,7 @@
 
 GoreeCloud Vault Server v0.1.0 is intentionally conservative. It changes ownership and product surface before it changes security-critical implementation.
 
-`GoreeVault` remains the broader client-family and historical product identity. This server security model uses the canonical GoreeCloud Vault Server name for the backend service.
+**GoreeCloud Vault** is the canonical current product/client family and **GoreeCloud Vault Server** is its backend service. **GoreeVault is retired** as a current product identity. Historical and compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain only when preservation is necessary for migration, rollback, interoperability, evidence continuity, or historical truth.
 
 ## Protected assets
 
@@ -31,6 +31,8 @@ GoreeCloud Vault Server v0.1.0 is intentionally conservative. It changes ownersh
 - Treat backups as sensitive security material.
 - Restore testing is part of backup correctness.
 - Dependency and upstream changes require review before production promotion.
+- Do not equate canonical naming with authorization to change cryptographic or compatibility-sensitive identifiers.
+- Do not claim Wardveil Security, Privacy Shield, Everkeep, GoreeCloud Mesh, GoreeCloud Identity, GoreeCloud Manager, or Glaze UI acceptance without that system's own qualifying evidence.
 
 ## Transport security boundary
 
@@ -44,7 +46,7 @@ A deployment is not production-eligible if the backend HTTP listener is bound to
 
 ## Administrative boundary
 
-Application access and infrastructure administration are separate trust planes. Administrative access should use GoreeCloud-controlled private paths, such as NetBird policy, wherever operationally possible. The public vault endpoint must not become a general-purpose management path to the host, database, container engine, or backup system.
+Application access and infrastructure administration are separate trust planes. Administrative access should use the approved GoreeCloud private-access boundary, including GoreeCloud Mesh where accepted and any currently approved underlying private-network implementation where applicable. The public vault endpoint must not become a general-purpose management path to the host, database, container engine, or backup system.
 
 ## v0.1.0 cryptographic scope
 
