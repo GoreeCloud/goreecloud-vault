@@ -24,11 +24,15 @@ The native foundation has no telemetry, analytics, external integration, network
 
 ## Fail-closed readiness
 
-Source completion cannot silently become production approval. Missing Identity, storage, platform, recovery, client, governance, target-environment, or approval gates keep readiness false.
+Source completion cannot silently become production approval. Missing storage, client, recovery, governance, target-environment, or approval gates keep readiness false.
+
+The same is true for every Integral Platform System. GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, Glaze UI, GoreeCloud Mesh, and GoreeCloud Identity remain independently blocked until their applicable contracts accept real implementation and evidence. The repository-root `goreecloud.platform.yaml` is authoritative for those states; a native readiness flag cannot override it.
 
 ## Independent validation
 
 The native crate has its own exact-head workflow with a locked dependency graph, formatting, strict linting, tests, build validation, and lifecycle checks.
+
+Passing that workflow proves only the bounded source foundation was validated at the tested revision. It does not establish production, platform, RC, Stable, or native-architecture acceptance.
 
 ## Controlled dependency growth
 
