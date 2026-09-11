@@ -4,14 +4,14 @@
 
 This document defines the source-control structure of GoreeCloud Vault Server and the responsibility boundary of each major repository area.
 
-The structure is intended to keep the transitional Vaultwarden compatibility core understandable while making GoreeCloud-owned security, deployment, release, Glaze UI, governance, evidence, Platform Contract, and client-boundary work easy to locate and review.
+The structure is intended to keep the transitional Vaultwarden compatibility core understandable while making GoreeCloud-owned native development, security, deployment, release, Glaze UI, governance, evidence, Platform Contract, and client-boundary work easy to locate and review.
 
 **GoreeCloud Vault** is the single canonical current product family and **GoreeCloud Vault Server** is its backend service. **GoreeVault is retired** as a current product identity. Historical and compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain only where preservation is necessary for migration, rollback, interoperability, evidence continuity, or historical truth.
 
 ## Structural principles
 
 1. Keep compatibility-sensitive server code close to the upstream layout while the runtime remains transitional unless a different structure provides a clear security or maintenance benefit.
-2. Keep GoreeCloud-owned validation, deployment, governance, evidence, Platform Contract, and product documentation explicit rather than hiding it inside upstream files.
+2. Keep GoreeCloud-owned native development, validation, deployment, governance, evidence, Platform Contract, and product documentation explicit rather than hiding it inside upstream files.
 3. Do not create new top-level directories merely for visual organization; a directory should represent a durable ownership, build, runtime, or lifecycle boundary.
 4. Keep reusable secrets and private production values outside the repository.
 5. Keep generated files traceable to their generator/source inputs.
@@ -19,6 +19,7 @@ The structure is intended to keep the transitional Vaultwarden compatibility cor
 7. Treat repository documentation as an implementation companion to authoritative GoreeCloud governance records, not as a replacement for those records.
 8. Keep future client applications separated from the server when they own independent cryptographic, browser-storage, dependency, release, and UI lifecycles.
 9. Do not rename compatibility-sensitive paths merely for branding. Migrate them only with explicit compatibility, rollback, data-integrity, and evidence review.
+10. Treat the presence or buildability of `native/` as source-development evidence only; it does not independently establish native architecture acceptance, platform conformance, production authorization, or Stable qualification.
 
 ## Top-level layout
 
@@ -31,9 +32,9 @@ Includes:
 - GitHub Actions workflows;
 - CODEOWNERS;
 - pull-request and issue configuration where applicable;
-- release, security, compatibility, recovery, deployment, Glaze UI, evidence-tooling, and repository-readiness automation.
+- release, security, compatibility, recovery, deployment, Glaze UI, evidence-tooling, repository-readiness, and native-foundation automation.
 
-Changes here are security-sensitive because workflows may control release publication, registry access, evidence collection, or repository permissions. Existing `goreevault-*` workflow filenames/display names are legacy automation identifiers until a separately validated migration changes them; they are not current product identity.
+Changes here are security-sensitive because workflows may control release publication, registry access, evidence collection, or repository permissions. Existing `goreevault-*` workflow filenames/display names are legacy automation identifiers until a separately validated migration changes them; they are not current product identity. The native-foundation workflow currently retains such a filename under this compatibility rule while its display text and current product documentation use GoreeCloud Vault naming.
 
 ### `deploy/`
 
@@ -75,6 +76,23 @@ Repository documentation must not store reusable credentials, production secrets
 Database schema migrations inherited from and maintained with the compatibility server.
 
 Migration changes are release-critical and require migration, rollback, recovery, and compatibility review as appropriate.
+
+### `native/`
+
+Development-only original GoreeCloud-owned Vault Server foundation and proposed long-term product-defining implementation boundary.
+
+The current native crate is intentionally narrow. It contains:
+
+- an isolated Rust crate with its own lockfile/workspace boundary;
+- a fail-closed readiness model whose production gates are false by default;
+- explicit readiness gates for all seven GoreeCloud Integral Platform Systems plus persistent storage, supported clients, WebAuthn/passkey acceptance, migration/rollback, repository/release governance, target-environment acceptance, and production approval;
+- an in-memory owner-scoped store for already-protected opaque encrypted record bytes;
+- synthetic tests for owner isolation, bounded inputs, record revision rules, and ciphertext-safe debug behavior;
+- a bounded CLI status/ready surface with no network listener or credential input.
+
+`native_foundation=true` means only that this development source boundary exists. The controlling `goreecloud.platform.yaml` remains nonconformant with GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, Glaze UI, GoreeCloud Mesh, and GoreeCloud Identity all `applicable-blocked`. Native source must not claim those acceptances itself.
+
+The native foundation does not implement production authentication, HTTP APIs, persistent storage, synchronization, organization/collection authorization, attachments, passkey/WebAuthn flows, production deployment, or production approval. It must not be treated as a migration target or used to retire the transitional runtime until exact-candidate migration, rollback, recovery, real-client, platform, governance, target-environment, and release evidence is accepted.
 
 ### `scripts/`
 
@@ -119,6 +137,22 @@ Current product-family boundary, provenance, compatibility policy, security poli
 ### `goreecloud.platform.yaml`
 
 Machine-readable GoreeCloud Platform Contract for this service. It declares lifecycle, release boundary, required Glaze UI version, and independent applicability/acceptance state for GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, Glaze UI, GoreeCloud Mesh, and GoreeCloud Identity. The contract remains fail-closed until qualifying evidence changes an individual system state.
+
+### `FEATURES.md`
+
+Implemented native-development behavior and the explicit boundary between source foundations, transitional compatibility capabilities, and features that remain unimplemented or unaccepted.
+
+### `SPECIFICATIONS.md`
+
+Repository-local native server implementation specification. It must remain subordinate to authoritative GoreeCloud governance and must not convert source implementation into production, platform, or Stable acceptance.
+
+### `BENEFITS.md`
+
+Benefits and intended advantages of the native development direction. Benefits are product-direction statements rather than evidence that the corresponding production capability has been accepted.
+
+### `COMPETITIVE-OBJECTIVES.md`
+
+Product and engineering objectives for the native direction. Objectives are not implementation-completion claims.
 
 ### `FEATURE-ROADMAP.md`
 
