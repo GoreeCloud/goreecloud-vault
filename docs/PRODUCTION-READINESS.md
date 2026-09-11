@@ -147,7 +147,7 @@ The real supported-client matrix must be exercised against the exact GoreeCloud 
 - refresh-token rotation/replay behavior;
 - logout and device/session invalidation behavior.
 
-Synthetic API compatibility tests are strong release evidence but do not replace the real-client matrix. Completed real-client, WebAuthn, multi-user, target-environment, Glaze UI, platform-system, and governance results must be recorded in the canonical Stable evidence asset defined by `docs/STABLE-EVIDENCE.md`.
+Synthetic API compatibility tests are strong release evidence but do not replace the real-client matrix. Completed real-client, WebAuthn, multi-user, target-environment, Glaze UI, and governance results must be recorded in the canonical Stable evidence asset defined by `docs/STABLE-EVIDENCE.md`. Integral Platform System acceptance is retained in each system's authoritative evidence process and cross-referenced from `docs/RC-EVIDENCE.md` or the equivalent versioned RC record; schema version 2 does not accept ad hoc platform-system fields.
 
 ## Glaze UI gates
 
