@@ -2,9 +2,9 @@
 
 Use this file as the human-readable evidence index for each GoreeCloud Vault Server Release Candidate. Copy it into a versioned/datestamped evidence record or complete an equivalent retained release record before promotion. Do not overwrite evidence from one source commit, browser-vault asset, or OCI digest with results from another.
 
-This record complements, but does not replace, the machine-readable `goreevault-stable-evidence.json` required for Stable promotion. That compatibility-era evidence filename is intentionally retained by current tooling and does not define the canonical server name.
+This record complements, but does not replace, the machine-readable `goreevault-stable-evidence.json` required for Stable promotion. That compatibility-era evidence filename is intentionally retained by current tooling and does not define the canonical product or server name.
 
-`GoreeVault` remains the broader client-family and historical product identity. Existing workflow display names may retain GoreeVault where changing them provides no security or operational benefit.
+**GoreeCloud Vault** is the single canonical current product/client family and **GoreeCloud Vault Server** is its canonical backend. **GoreeVault is retired** as a current product identity. Existing workflow display names may retain GoreeVault only as legacy automation identifiers until a separately validated workflow-identity migration is completed; those labels do not define the current product name.
 
 ## Evidence-state vocabulary
 
@@ -34,7 +34,7 @@ Do not convert an unsupported or untested requirement to `PASS` merely to comple
 - Primary tester/operator:
 - Reviewer:
 
-The source SHA, GoreeCloud Vault Server manifest digest, PostgreSQL image, and browser-vault identity above define this evidence cycle. Client, recovery, migration, security, multi-user, target-environment, and release approval must refer to the same applicable artifacts.
+The source SHA, GoreeCloud Vault Server manifest digest, PostgreSQL image, and browser-vault identity above define this evidence cycle. Client, recovery, migration, security, multi-user, target-environment, platform-system, and release approval evidence must refer to the same applicable candidate state.
 
 ## Parent/source qualification
 
@@ -85,7 +85,7 @@ Record the GitHub Actions run URL/ID and conclusion for the exact candidate sour
 | Code Spell Checking | | NOT VERIFIED |
 | Security Analysis with zizmor | | NOT VERIFIED |
 
-Workflow display names above are existing automation identifiers, not the canonical product name.
+The `GoreeVault …` workflow display names above are retained legacy automation identifiers. They may be used to identify exact historical/current workflow runs until the workflow-name migration is separately validated, but they are not a current product-family naming exception.
 
 Where a broader workflow contains multiple release-critical jobs, retain enough detail to prove the required jobs passed rather than recording only an ambiguous workflow name.
 
@@ -210,7 +210,7 @@ Machine-observed or directly verified controls:
 - rollback recorded/rehearsed as applicable: NOT VERIFIED
 - monitoring verified: NOT VERIFIED
 - logs reviewed for sensitive-data minimization: NOT VERIFIED
-- approved NetBird/private administrative path verified: NOT VERIFIED
+- approved private administrative path verified: NOT VERIFIED
 - evidence timestamp and timezone:
 - backup reference:
 - rollback reference:
@@ -226,14 +226,14 @@ After the work actually occurs, `scripts/collect-target-evidence.py` may be used
 ### Server-owned surfaces
 
 - GoreeCloud Vault Server Admin/error surfaces pass repository Glaze UI gate: NOT VERIFIED
-- Transactional email presentation retains the documented GoreeVault-family identity and approved email-safe Glaze treatment: NOT VERIFIED
+- Transactional email presentation uses the documented GoreeCloud Vault family identity and approved email-safe Glaze treatment: NOT VERIFIED
 - Server-owned presentation has no unapproved remote analytics/tracking dependency: NOT VERIFIED
 
 ### Product-wide browser ownership
 
 The current bundled upstream-compatible browser vault is a temporary compatibility dependency. Under the current approved GoreeCloud path, it does **not** satisfy product-wide Stable Glaze UI ownership.
 
-`docs/WEB-CLIENT-CONTRACT.md` defines the future GoreeVault Web boundary. Until that separate client is implemented and accepted, record:
+`docs/WEB-CLIENT-CONTRACT.md` defines the future **GoreeCloud Vault Web** boundary. Until that separate client is implemented and accepted, record:
 
 - Primary production browser vault is GoreeCloud-owned: NO
 - Product-wide Glaze UI conformance proven: NO
@@ -248,6 +248,42 @@ The current bundled upstream-compatible browser vault is a temporary compatibili
 
 These `NO` values do not prevent documenting a server RC when the governing roadmap permits that milestone, but they **do block product-wide Stable promotion** under the current approved path.
 
+## Integral Platform System acceptance
+
+Use `goreecloud.platform.yaml` to determine applicable systems for this exact candidate. Each system must independently accept its own scope; do not infer one system's acceptance from another system or from repository CI.
+
+- GoreeCloud Manager state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- Privacy Shield state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- Wardveil Security state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- Everkeep state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- Glaze UI state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- GoreeCloud Mesh state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- GoreeCloud Identity state: NOT VERIFIED
+  - authoritative evidence reference:
+  - accepted scope/version:
+  - accepted at and timezone:
+- All applicable Integral Platform Systems independently accepted for this candidate: NO
+
+The current schema-version-2 `goreevault-stable-evidence.json` has no dedicated fields for these per-system records. Do not add ad hoc fields to that strict JSON. Retain the authoritative system evidence separately and cross-reference it here until a governed Stable-evidence schema revision formally incorporates it.
+
 ## Open readiness blockers reconciliation
 
 Review `docs/OPEN-READINESS-BLOCKERS.md` immediately before RC sign-off.
@@ -258,6 +294,7 @@ Review `docs/OPEN-READINESS-BLOCKERS.md` immediately before RC sign-off.
 - target-environment rehearsal blocker closed: NO
 - product-wide Glaze UI ownership blocker closed: NO
 - exact-RC Stable evidence/approval blocker closed: NO
+- Integral Platform System acceptance blocker closed: NO
 
 Do not remove a blocker because work started; close it only when objective retained evidence satisfies the governing contract.
 
@@ -272,6 +309,7 @@ Use this section to decide whether the candidate qualifies for the specific RC m
 - Required real WebAuthn evidence for this RC milestone complete: NO
 - Required target-environment rehearsal for this RC milestone complete: NO
 - Required repository governance for this RC milestone verified: NO
+- Required applicable Integral Platform System acceptance complete: NO
 - No unresolved blocker that prevents this RC milestone: NO
 - Approved as the stated GoreeCloud Vault Server RC milestone: NO
 - RC approver/date/timezone:
@@ -290,13 +328,14 @@ Only after every Stable blocker is closed:
 - verify product-wide Glaze UI evidence: NO
 - verify target-environment collector/reviewed evidence: NO
 - verify repository governance evidence: NO
+- verify all applicable Integral Platform System evidence references above are independently accepted and current: NO
 - verify required reviewer approval: NO
 - run `scripts/assemble-stable-evidence.py` successfully against the exact source SHA, RC tag, and manifest digest: NO
 - independently run `scripts/validate-stable-evidence.py` successfully against the assembled canonical file: NO
 - verify `goreevault-stable-evidence.json` is mode `0600` before upload: NO
 - attach canonical `goreevault-stable-evidence.json` to the matching RC GitHub release: NO
 
-The assembler does not create evidence or complete missing tests. It rejects placeholders, unknown/duplicate fields through the Stable validator, mismatched exact-RC identifiers, implicit overwrite, and symbolic-link output paths.
+The assembler does not create evidence or complete missing tests. It rejects placeholders, unknown/duplicate fields through the Stable validator, mismatched exact-RC identifiers, implicit overwrite, and symbolic-link output paths. Integral Platform System evidence remains outside schema version 2 and therefore must not be inserted into the JSON as unsupported fields.
 
 ## Stable promotion verification
 
@@ -308,8 +347,9 @@ Complete these after the Stable tag workflow finishes and before treating the re
 - Stable workflow did not rebuild the production image: NOT VERIFIED
 - Stable-run GitHub artifact attestation references the same candidate digest: NOT VERIFIED
 - Stable workflow downloaded and validated the canonical evidence asset from the matching RC release: NOT VERIFIED
+- separately retained Integral Platform System acceptances still match the promoted candidate state: NOT VERIFIED
 
-Any source, browser asset, or digest mismatch is a failed Stable promotion even when semantic versions look correct.
+Any source, browser asset, digest, or applicable platform-acceptance mismatch is a failed Stable promotion even when semantic versions look correct.
 
 ## Final Stable decision
 
@@ -322,9 +362,10 @@ Any source, browser asset, or digest mismatch is a failed Stable promotion even 
 - Real authenticator passkey evidence complete: NO
 - Target-environment evidence complete: NO
 - Product-wide GoreeCloud-owned Glaze UI evidence complete: NO
+- All applicable Integral Platform Systems independently accepted: NO
 - Backup/restore/migration/rollback evidence complete: NO
 - No unresolved Stable blocker: NO
 - Approved for Stable promotion: NO
 - Final approver/date/timezone:
 
-Stable must use the same tested source commit **and exact tested RC OCI manifest**. Any source or artifact change requires a new evidence cycle unless the release contract explicitly proves artifact equivalence without rebuilding or changing behavior.
+Stable must use the same tested source commit **and exact tested RC OCI manifest**. Any source, artifact, or applicable platform-acceptance change requires a new evidence cycle or explicit re-acceptance unless the governing contract proves equivalence without rebuilding or changing behavior.

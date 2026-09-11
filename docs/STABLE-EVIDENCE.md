@@ -2,7 +2,7 @@
 
 Stable promotion must be backed by one machine-readable evidence record named `goreevault-stable-evidence.json` attached to the matching Release Candidate GitHub release.
 
-The compatibility-era evidence filename is intentionally retained by current release tooling and does not define the canonical server identity. `GoreeVault` remains the broader client-family and historical product identity; the backend service is **GoreeCloud Vault Server**.
+The compatibility-era evidence filename is intentionally retained by current release tooling and does not define the canonical product or server identity. **GoreeCloud Vault** is the canonical current product/client family, **GoreeCloud Vault Server** is its backend service, and **GoreeVault is retired** as a current product identity.
 
 The evidence record is not a substitute for testing. It is the fail-closed handoff between completed manual/operational validation and the Stable promotion workflow.
 
@@ -14,13 +14,14 @@ For that reason:
 
 1. publish an RC only after automated RC gates pass;
 2. test the exact RC artifact;
-3. complete multi-user, real-client, WebAuthn, Glaze UI, target-environment, and governance validation;
-4. prepare reviewed JSON section files from the canonical schema;
+3. complete multi-user, real-client, WebAuthn, Glaze UI, target-environment, governance, and independently applicable Integral Platform System validation;
+4. prepare reviewed JSON section files from the canonical Stable schema;
 5. assemble and validate the canonical `goreevault-stable-evidence.json` against the exact RC identifiers;
-6. attach the validated file to the matching RC GitHub release;
-7. create the Stable tag only after repository governance and release-environment approval are complete.
+6. retain/cross-reference any required platform-system acceptance records that are outside the current Stable JSON schema;
+7. attach the validated Stable evidence file to the matching RC GitHub release;
+8. create the Stable tag only after repository governance, platform-system acceptance, and release-environment approval are complete.
 
-The Stable release workflow downloads that exact asset from the selected RC release and rejects promotion when the file is missing, malformed, ambiguous, incomplete, contains unknown fields, references a different source SHA, references a different OCI manifest digest, or fails an applicable GoreeCloud production gate.
+The Stable release workflow downloads that exact asset from the selected RC release and rejects promotion when the file is missing, malformed, ambiguous, incomplete, contains unknown fields, references a different source SHA, references a different OCI manifest digest, or fails an applicable requirement represented by the current Stable schema.
 
 ## Schema version 2
 
@@ -29,6 +30,14 @@ Schema version 2 adds explicit **multi-user readiness** and **product-wide Glaze
 The validator intentionally does not treat the current upstream-compatible web vault as product-wide Glaze compliance. Stable evidence must represent the GoreeCloud-owned/approved production presentation state, not the transitional RC compatibility state.
 
 The schema is strict. Unknown fields and duplicate JSON keys are rejected rather than ignored. This prevents ambiguous shadowed values and reduces the risk of accidentally storing unrelated or sensitive information in the release evidence file.
+
+### Integral Platform System boundary
+
+The current schema-version-2 JSON does **not** contain dedicated evidence objects for GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, GoreeCloud Mesh, or GoreeCloud Identity. Do not add ad hoc fields to the Stable JSON; the strict validator will reject unknown fields.
+
+That omission does not waive platform acceptance. `goreecloud.platform.yaml` is the service-level Platform Contract and remains fail-closed. Before any GoreeCloud Stable claim, every applicable Integral Platform System must independently accept the exact applicable service/candidate state through its authoritative evidence process. Those acceptance records must be retained and cross-referenced in `docs/RC-EVIDENCE.md` or the equivalent versioned RC record until a separately governed Stable-evidence schema revision formally incorporates them.
+
+A passing schema-version-2 JSON file therefore proves only the requirements represented by that schema. It must not be used to claim overall GoreeCloud Platform Contract conformance while any applicable platform-system result remains blocked, missing, stale, or unverified.
 
 ## Required artifact evidence
 
@@ -131,13 +140,13 @@ The target rehearsal must verify the production contract at `https://vault.goree
 - rollback information is recorded;
 - monitoring is verified;
 - logs have been reviewed for sensitive-data minimization;
-- the approved NetBird/private-access path is verified.
+- the approved private-access path is verified.
 
 ### Target evidence collector
 
 `scripts/collect-target-evidence.py` provides a read-only helper for producing the exact `target_environment` object after a real target-environment rehearsal.
 
-The collector intentionally does **not** create a complete Stable evidence record and cannot attest client, WebAuthn, Glaze UI, governance, or reviewer approval on the operator's behalf. Its scope is limited to the target-environment section.
+The collector intentionally does **not** create a complete Stable evidence record and cannot attest client, WebAuthn, Glaze UI, governance, platform-system acceptance, or reviewer approval on the operator's behalf. Its scope is limited to the target-environment section.
 
 Machine-observed checks include:
 
@@ -157,7 +166,7 @@ Machine-observed checks include:
 - the admin token is absent/empty under the current disabled-admin policy;
 - the canonical HTTPS `/alive` endpoint responds successfully.
 
-Controls that cannot be proven safely from container metadata require explicit operator flags, including real HTTPS/WSS reverse-proxy validation, backup creation, restore rehearsal, rollback recording, monitoring verification, privacy-conscious log review, and the approved NetBird/private administrative path.
+Controls that cannot be proven safely from container metadata require explicit operator flags, including real HTTPS/WSS reverse-proxy validation, backup creation, restore rehearsal, rollback recording, monitoring verification, privacy-conscious log review, and the approved private administrative path.
 
 The collector never serializes container environment values, database credentials, vault contents, session material, tokens, or other reusable secrets. It reads only the values required to decide whether a control passes and emits the non-secret Stable evidence fields. When written to a file, the collector applies mode `0600`.
 
@@ -180,7 +189,7 @@ python3 scripts/collect-target-evidence.py \
   --output target-environment.json
 ```
 
-The `/etc/goreevault` path is a compatibility-era operational identifier intentionally retained by the current deployment contract; it does not define the current product name.
+The `/etc/goreevault` path and `--netbird-path-verified` flag are compatibility-era operational identifiers intentionally retained by the current deployment/evidence contract; they do not define the current product name or the future GoreeCloud Mesh implementation boundary.
 
 The default evidence timestamp uses `America/Chicago`, matching GoreeCloud's Central Time documentation convention. The resulting `target-environment.json` is the value for the full Stable record's `target_environment` field; it must still be reviewed before insertion and final validation.
 
@@ -203,9 +212,9 @@ Secret scanning, push protection, and private vulnerability reporting must be re
 
 ## Human-readable RC evidence index
 
-`docs/RC-EVIDENCE.md` is the human-readable evidence index for the candidate. It tracks automated exact-head gates, supply chain, recovery/migration, security disposition, multi-user proof, the real-client/WebAuthn matrix, target rehearsal, server and product-wide Glaze UI state, open blockers, RC qualification, Stable assembly, and post-promotion verification.
+`docs/RC-EVIDENCE.md` is the human-readable evidence index for the candidate. It tracks automated exact-head gates, supply chain, recovery/migration, security disposition, multi-user proof, the real-client/WebAuthn matrix, target rehearsal, server and product-wide Glaze UI state, Integral Platform System acceptance references, open blockers, RC qualification, Stable assembly, and post-promotion verification.
 
-Approval of the server RC section does not imply product-wide Stable approval. The final Stable workflow relies on the validated machine-readable evidence asset.
+Approval of the server RC section does not imply product-wide Stable approval. The final Stable workflow relies on the validated machine-readable evidence asset, while overall GoreeCloud Stable authorization also remains subject to independently retained platform-system acceptance and other governing records outside schema version 2.
 
 ## Strict Stable evidence assembly
 
@@ -279,7 +288,7 @@ gh release upload v0.3.0-rc.1 \
   --clobber
 ```
 
-Do not upload evidence to a different RC release, rename the canonical asset, or reuse evidence from another source SHA or manifest digest.
+Do not upload evidence to a different RC release, rename the canonical asset without a separately validated tooling migration, or reuse evidence from another source SHA or manifest digest.
 
 ## Stable promotion behavior
 
@@ -292,4 +301,4 @@ On a Stable tag, `.github/workflows/goreevault-release.yml`:
 5. validates the evidence against the selected RC tag, source SHA, manifest, immutable supporting artifacts, multi-user gate, product-wide Glaze UI gate, real-client matrix, WebAuthn, target environment, governance, and approvals;
 6. only then promotes the exact RC manifest to the Stable version and `latest`.
 
-The workflow filename is a compatibility-era internal identifier. A missing or invalid evidence asset blocks Stable publication.
+The workflow filename is a compatibility-era internal identifier. A missing or invalid evidence asset blocks Stable publication. Successful execution of this schema-version-2 workflow is necessary but does not waive separately required Integral Platform System acceptance.

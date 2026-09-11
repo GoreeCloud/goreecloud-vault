@@ -6,7 +6,7 @@ GoreeCloud Vault Server begins from Vaultwarden and must keep a deliberate, revi
 
 Upstream tracking is a security and compatibility control. A green GoreeCloud Vault Server branch is not sufficient release evidence if an applicable newer Vaultwarden security or client-compatibility fix has not been evaluated.
 
-`GoreeVault` remains the broader client-family and historical product identity. This record uses the canonical server name for the maintained fork and its source baseline.
+**GoreeCloud Vault** is the canonical current product/client family and **GoreeCloud Vault Server** is its backend service. **GoreeVault is retired** as a current product identity. Historical and compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain only where preserving them is necessary for migration, rollback, interoperability, evidence continuity, or historical truth.
 
 ## Provenance baseline
 
@@ -76,7 +76,7 @@ Result for this snapshot:
 - no upstream delta was available to classify as an applicable security/compatibility fix;
 - the audit does not eliminate the requirement to re-check upstream before an RC or Stable promotion.
 
-This is a point-in-time record, not a permanent assertion that GoreeCloud Vault Server is current.
+This is a point-in-time historical snapshot, not a permanent assertion that GoreeCloud Vault Server is current. The current upstream relationship must be re-verified at release time.
 
 ## Release gate
 

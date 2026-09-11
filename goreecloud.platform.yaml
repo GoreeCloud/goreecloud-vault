@@ -1,0 +1,148 @@
+schema_version: '0.2'
+
+component:
+  type: service
+  id: goreecloud-vault-server
+  product_name: GoreeCloud Vault Server
+  product_family: GoreeCloud Vault
+  repository: GoreeCloud/goreecloud-vault-server
+
+lifecycle: development
+version: null
+
+supported_platforms:
+  - linux
+  - container
+
+api:
+  versions: []
+  endpoints:
+    - /alive
+
+platform_systems:
+  manager:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - README.md
+      - docs/PRODUCTION-READINESS.md
+    notes: Operational and lifecycle visibility is required, but accepted GoreeCloud Manager runtime integration and administration evidence are not established.
+  privacy_shield:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - README.md
+      - docs/SECURITY-MODEL.md
+    notes: Zero-knowledge and data-minimization boundaries exist, but current Privacy Shield runtime authorization, logging, retention, deletion, telemetry, and acceptance evidence are incomplete.
+  wardveil_security:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - SECURITY.md
+      - docs/SECURITY-MODEL.md
+      - docs/PRODUCTION-READINESS.md
+    notes: Security hardening and evidence tooling exist, but current Wardveil Security integration and accepted runtime security evidence are incomplete.
+  everkeep:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - docs/RECOVERY.md
+      - docs/PRODUCTION-READINESS.md
+    notes: Backup, destructive restore, migration and rollback tooling exist, but current Everkeep integration and exact-candidate continuity acceptance are incomplete.
+  glaze_ui:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - docs/GLAZE-UI.md
+      - README.md
+    notes: Server-owned presentation has source-level Glaze checks, but current applicable Stable Glaze UI 1.3.0 product-wide acceptance is not established and the upstream-compatible browser vault remains transitional.
+  mesh:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - README.md
+    notes: A privacy-minimized vault.secrets capability projection exists in repository history, but accepted production Mesh registration, authenticated delivery, runtime coordination, and production acceptance are not established.
+    capabilities:
+      - vault.secrets
+    dependencies: []
+    published_events: []
+    consumed_events: []
+  identity:
+    result: applicable-blocked
+    version: null
+    evidence:
+      - README.md
+      - docs/SECURITY-MODEL.md
+    notes: Identity integration must remain separate from Vault encryption and application authorization; accepted production GoreeCloud Identity integration is incomplete.
+
+health:
+  health_endpoint: /alive
+  readiness_endpoint: null
+
+continuity:
+  backup:
+    required: true
+    requirements:
+      - Back up every persistent server component required for service restoration without treating server disaster recovery as a substitute for user-controlled encrypted vault export.
+      - Keep protected vault contents encrypted according to the approved zero-knowledge architecture.
+  restore:
+    required: true
+    requirements:
+      - Perform destructive isolated restore rehearsal against the exact release candidate before Stable approval.
+      - Validate database, attachments, configuration, required cryptographic material, authorization state, and rollback safety.
+  export:
+    required: true
+    requirements:
+      - Preserve user-controlled encrypted portable export and explicitly gated plaintext export paths through supported clients.
+  portability:
+    required: true
+    requirements:
+      - Preserve interoperable import/export and migration paths without making a GoreeCloud-operated service mandatory.
+
+external_dependencies:
+  - name: Vaultwarden
+    purpose: Transitional compatibility, protocol, migration, and behavioral-reference implementation while native GoreeCloud Vault Server architecture is developed.
+    required: true
+    version_constraint: null
+  - name: PostgreSQL
+    purpose: Supported production persistence engine.
+    required: true
+    version_constraint: null
+
+compatibility:
+  platform_contract: '0.2'
+  glaze_ui_required: '1.3.0'
+  requires:
+    - goreecloud-platform-contract==0.2
+    - glaze-ui==1.3.0
+  provides:
+    - goreecloud-vault-server
+    - vault-secrets-capability
+
+evidence:
+  acceptance_tests: []
+  release: []
+
+conformance:
+  status: nonconformant
+  validated_at: null
+  evidence:
+    - README.md
+    - VAULT.md
+    - docs/PRODUCTION-READINESS.md
+    - docs/SECURITY-MODEL.md
+    - docs/GLAZE-UI.md
+  blockers:
+    - Native GoreeCloud Vault Server product-defining architecture is not yet accepted on main.
+    - GoreeCloud Manager operational integration and acceptance are incomplete.
+    - Privacy Shield runtime integration and current privacy acceptance are incomplete.
+    - Wardveil Security runtime integration and current security acceptance are incomplete.
+    - Everkeep current exact-candidate continuity acceptance is incomplete.
+    - Current applicable Stable Glaze UI 1.3.0 product-wide acceptance is incomplete.
+    - GoreeCloud Mesh runtime integration and acceptance are incomplete.
+    - GoreeCloud Identity runtime integration and acceptance are incomplete.
+    - Real supported-client and WebAuthn/passkey acceptance are incomplete.
+    - Target-environment deployment, recovery, migration, rollback and monitoring acceptance are incomplete.
+    - Repository governance and final exact-release approval evidence are incomplete.
+    - Former GoreeVault active product naming remains to be fully migrated from compatibility-sensitive and historical repository surfaces.
+    - No Stable or production-approved release evidence is declared.

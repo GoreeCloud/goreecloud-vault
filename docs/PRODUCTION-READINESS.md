@@ -6,13 +6,19 @@ GoreeCloud Vault Server uses evidence-based release states. A green source build
 
 - **Development** — implementation work may change; no production use is authorized.
 - **Release Candidate** — exact source and image artifacts have passed the automated release gates and are eligible for controlled validation.
-- **Stable** — the exact RC artifact has also passed supported-client, multi-user, operational, security, recovery, Glaze UI, governance, and target-environment approval gates.
+- **Stable** — the exact RC artifact has also passed supported-client, multi-user, operational, security, recovery, Glaze UI, platform-system, governance, and target-environment approval gates.
 
 A release must not be promoted by version label alone.
 
+## Canonical product boundary
+
+**GoreeCloud Vault** is the single canonical current product/client family and **GoreeCloud Vault Server** is its backend service. **GoreeVault is retired** as a current product identity. Historical and compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain only where preservation is necessary for migration, rollback, interoperability, release evidence, or historical truth.
+
+Existing workflow display names and `goreevault-stable-evidence.json` remain compatibility-era operational identifiers until separately migrated and validated. They are not current product-name exceptions.
+
 ## Mandatory GoreeCloud software gates
 
-GoreeCloud Vault Server is a non-administrator-only, multi-user credential application. Stable requires all three applicable GoreeCloud platform gates.
+GoreeCloud Vault Server is a non-administrator-only, multi-user credential application. Stable requires the applicable multi-user, security, and Glaze UI gates below in addition to independent acceptance by all applicable Integral Platform Systems declared in `goreecloud.platform.yaml`.
 
 ### Multi-user readiness
 
@@ -33,18 +39,32 @@ Evidence must prove the applicable authentication, authorization, zero-knowledge
 
 ### Glaze UI readiness
 
-Every GoreeCloud-controlled server surface and GoreeVault-family user-facing interface within the approved release scope must conform to Glaze UI before Stable unless an explicit material exception has been approved under the GoreeCloud exception standard.
+Every GoreeCloud-controlled server surface and GoreeCloud Vault user-facing interface within the approved release scope must conform to Glaze UI before Stable unless an explicit material exception has been approved under the GoreeCloud exception standard.
 
 The bundled upstream-compatible web vault is currently a transitional compatibility dependency and **does not satisfy product-wide Glaze UI readiness**. No permanent production exception is approved by this repository. Stable is therefore blocked while that upstream presentation remains the primary browser vault.
+
+## Integral Platform System acceptance
+
+A GoreeCloud Stable claim also requires independent applicable acceptance for every current Integral Platform System declared by the service Platform Contract:
+
+- **GoreeCloud Manager** — registration, health/status, lifecycle, operational control, and maintenance boundary as applicable;
+- **Privacy Shield** — privacy authorization, minimization, purpose, revocation, and evidence boundary as applicable;
+- **Wardveil Security** — security controls, protection evidence, threat/incident boundary, and applicable runtime acceptance;
+- **Everkeep** — backup, restore, continuity, recovery, and verification boundary;
+- **Glaze UI** — controlled presentation and accessibility conformance;
+- **GoreeCloud Mesh** — private connectivity/service-publication boundary where applicable;
+- **GoreeCloud Identity** — identity/SSO/account boundary where applicable.
+
+Each system must prove its own acceptance. Another system's pass, repository CI, encryption, private networking, or a successful deployment cannot substitute for a missing acceptance record. Until qualifying evidence changes an individual state, `goreecloud.platform.yaml` must remain fail-closed and overall conformance must remain nonconformant.
 
 ## Release Candidate automated gates
 
 The exact immutable candidate SHA must pass:
 
-- GoreeVault CI, including PostgreSQL server and test-target compilation;
+- the existing compatibility-era CI workflow, including PostgreSQL server and test-target compilation;
 - source-format and template checks;
-- GoreeVault Repository Readiness validation;
-- GoreeVault Security Scan with zero unresolved HIGH/CRITICAL findings outside explicit, documented, expiring exceptions;
+- Repository Readiness validation;
+- Security Scan with zero unresolved HIGH/CRITICAL findings outside explicit, documented, expiring exceptions;
 - workflow security analysis;
 - black-box compatibility coverage for login, sync, CRUD, attachments, organizations/collections, TOTP, WebAuthn/passkey challenge/rejection, and refresh-token replay/concurrency behavior;
 - isolated multi-user account and organization/collection authorization regression coverage;
@@ -52,10 +72,10 @@ The exact immutable candidate SHA must pass:
 - Vaultwarden baseline to GoreeCloud Vault Server migration and rollback rehearsal;
 - non-publishing AMD64/ARM64 release-image build;
 - production Compose policy validation;
-- Glaze UI source-conformance validation for GoreeCloud Vault Server-owned browser administration/error surfaces and the applicable GoreeVault-family presentation boundary;
+- Glaze UI source-conformance validation for GoreeCloud Vault Server-owned browser administration/error surfaces and the applicable GoreeCloud Vault presentation boundary;
 - Stable-evidence schema self-tests.
 
-Existing workflow display names retain historical GoreeVault identifiers until they are deliberately migrated; those internal identifiers do not override the canonical server identity.
+Existing workflow display names retain historical `GoreeVault` identifiers until they are deliberately migrated and validated; those legacy automation identifiers do not override the canonical product or server identity.
 
 Any code change after evidence is collected creates a new candidate SHA and requires new exact-head evidence.
 
@@ -75,7 +95,7 @@ Before the first Stable release, verify all of the following in GitHub and recor
 - release publishing uses the protected environment and does not accept unreviewed branch builds;
 - no standing temporary workflow retains unnecessary `contents: write` permission.
 
-**Known repository-state blocker as of August 15, 2026:** the prior repository audit found no repository ruleset protecting `main` and no GitHub `release` environment. Stable promotion remains blocked until those controls are created and re-verified.
+The current authoritative blocker record must be consulted for the latest verified GitHub governance state. Missing visibility is not a passing state.
 
 ## Stable artifact gates
 
@@ -90,7 +110,7 @@ Stable must use the exact RC artifact that was tested. Record:
 - security scan results and exception disposition state;
 - a validated `goreevault-stable-evidence.json` attached to the matching RC GitHub release.
 
-The `goreevault-stable-evidence.json` filename remains a compatibility-oriented evidence identifier; the canonical server identity is GoreeCloud Vault Server.
+The `goreevault-stable-evidence.json` filename remains a compatibility-oriented evidence identifier; the canonical product is GoreeCloud Vault and the canonical backend is GoreeCloud Vault Server.
 
 The canonical Stable evidence format and upload process are defined in `docs/STABLE-EVIDENCE.md`. The Stable release workflow must validate that file against the selected RC tag, source SHA, and OCI manifest digest before any Stable or `latest` tag is created.
 
@@ -111,7 +131,7 @@ Before production publication at `https://vault.goreecloud.com`:
 - storage capacity, certificate expiry, health, restart loops, and backup completion are monitored;
 - production logs have been checked for secret/data minimization;
 - rollback instructions and the previous known-good digests are recorded before deployment;
-- the approved private-access/NetBird path is verified where it applies to administration.
+- the approved private-access path is verified where it applies to administration.
 
 ## Client gates
 
@@ -127,15 +147,15 @@ The real supported-client matrix must be exercised against the exact GoreeCloud 
 - refresh-token rotation/replay behavior;
 - logout and device/session invalidation behavior.
 
-Synthetic API compatibility tests are strong release evidence but do not replace the real-client matrix. Completed real-client, WebAuthn, multi-user, target-environment, Glaze UI, and governance results must be recorded in the canonical Stable evidence asset defined by `docs/STABLE-EVIDENCE.md`.
+Synthetic API compatibility tests are strong release evidence but do not replace the real-client matrix. Completed real-client, WebAuthn, multi-user, target-environment, Glaze UI, and governance results must be recorded in the canonical Stable evidence asset defined by `docs/STABLE-EVIDENCE.md`. Integral Platform System acceptance is retained in each system's authoritative evidence process and cross-referenced from `docs/RC-EVIDENCE.md` or the equivalent versioned RC record; schema version 2 does not accept ad hoc platform-system fields.
 
 ## Glaze UI gates
 
-Every GoreeCloud Vault Server-controlled server surface and every GoreeVault-family user-facing surface included in the product release must conform to `docs/GLAZE-UI.md`. Material UI changes require authenticated browser review at representative desktop and mobile widths in System, Light, and Dark modes, including keyboard-only operation, reduced motion, increased contrast, forced colors where practical, error states, empty states, long values, and responsive tables/forms.
+Every GoreeCloud Vault Server-controlled server surface and every GoreeCloud Vault user-facing surface included in the product release must conform to `docs/GLAZE-UI.md`. Material UI changes require authenticated browser review at representative desktop and mobile widths in System, Light, and Dark modes, including keyboard-only operation, reduced motion, increased contrast, forced colors where practical, error states, empty states, long values, and responsive tables/forms.
 
 The server-owned Admin and error surfaces are already subject to automated Glaze UI conformance.
 
-The bundled upstream-compatible web vault is a temporary compatibility dependency, not a permanent production exception. Product-wide Stable promotion remains denied until GoreeVault owns the primary browser presentation under Glaze UI or a separately approved material exception satisfies the full GoreeCloud exception standard. No such exception is currently approved.
+The bundled upstream-compatible web vault is a temporary compatibility dependency, not a permanent production exception. Product-wide Stable promotion remains denied until **GoreeCloud Vault Web** owns the primary browser presentation under Glaze UI or a separately approved material exception satisfies the full GoreeCloud exception standard. No such exception is currently approved.
 
 ## Release decision
 
@@ -146,6 +166,7 @@ Stable promotion is denied if any of the following is true:
 - a vulnerability exception is expired, broad, undocumented, or no longer justified;
 - multi-user isolation/authorization evidence is missing or failing;
 - migration, rollback, backup/restore, or real-client evidence is missing;
+- an applicable Integral Platform System lacks independent accepted evidence;
 - the matching RC release lacks a valid `goreevault-stable-evidence.json` or the evidence references a different source SHA/OCI manifest;
 - `main` or the release environment lacks the required governance controls;
 - the production backend can be reached directly from the public network;

@@ -2,7 +2,7 @@
 
 ## Current status
 
-GoreeCloud Vault Server is the canonical GoreeCloud server identity for the Vault service. GoreeVault remains a broader client-family and historical identity where compatibility requires it.
+**GoreeCloud Vault** is the canonical current product family and **GoreeCloud Vault Server** is its backend service. **GoreeVault is retired** as a current product identity. Historical and compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain only where preserving them is necessary for evidence, migration, rollback, interoperability, or historical truth.
 
 The server is under active pre-Stable development and acceptance work. Repository source, CI success, validation tooling, deployment scaffolding, or candidate evidence must not be interpreted as a production or Stable claim.
 
@@ -14,7 +14,7 @@ The intended production service origin is:
 https://vault.goreecloud.com
 ```
 
-The reviewed architecture keeps the application backend private behind the approved HTTPS/WSS publication path and requires PostgreSQL to remain internal. Exact production network, DNS, reverse-proxy, firewall, NetBird, database, and secret configuration must follow the accepted deployment records for the selected release candidate.
+The reviewed architecture keeps the application backend private behind the approved HTTPS/WSS publication path and requires PostgreSQL to remain internal. Exact production network, DNS, reverse-proxy, firewall, private-access, database, and secret configuration must follow the accepted deployment records for the selected release candidate.
 
 Do not copy placeholder values from `.env.template` into production without completing the deployment-specific secret and configuration process.
 
@@ -45,9 +45,9 @@ Stable acceptance requires retained real-browser WebAuthn evidence covering regi
 
 The repository's validation harnesses and synthetic test paths do not by themselves authorize credential processing or Stable promotion.
 
-## GoreeVault Web Argon2id work
+## GoreeCloud Vault Web Argon2id work
 
-The repository contains validation-only browser-target Argon2id WebAssembly work, deterministic artifact evidence, controlled HTTPS browser harnesses, and fail-closed browser-evidence validation.
+The repository contains validation-only browser-target Argon2id WebAssembly work, deterministic artifact evidence, controlled HTTPS browser harnesses, and fail-closed browser-evidence validation for the future **GoreeCloud Vault Web** client boundary.
 
 These foundations remain separate from production credential processing until the exact generated browser artifacts, runtime registration, CSP/performance/memory/compatibility behavior, release inclusion, and final acceptance have all been reviewed for the selected candidate.
 
@@ -69,6 +69,8 @@ scripts/validate-stable-evidence.py
 
 The final evidence bundle binds the exact RC tag, source SHA, OCI manifest digest, PostgreSQL artifact, browser-vault asset, multi-user testing, real clients, WebAuthn, Glaze UI review, target-environment testing, repository governance, and final approvals.
 
+The compatibility-era evidence filename `goreevault-stable-evidence.json` remains an operational identifier in current release tooling; it is not a current product-name exception.
+
 ### Evidence chronology
 
 All component evidence timestamps must be at or before the bundle `collected_at` instant.
@@ -81,14 +83,17 @@ An approval recorded before later multi-user, client, WebAuthn, Glaze UI, target
 
 ## Mandatory GoreeCloud platform gates
 
-Stable promotion also requires current validated application integration with:
+Stable promotion requires current, independently validated applicability and acceptance for every Integral Platform System declared in `goreecloud.platform.yaml`:
 
-- Glaze UI;
-- Wardveil Security;
+- GoreeCloud Manager;
 - Privacy Shield;
-- Everkeep.
+- Wardveil Security;
+- Everkeep;
+- Glaze UI;
+- GoreeCloud Mesh;
+- GoreeCloud Identity.
 
-Repository CI, compatibility tests, deployment validation, encryption, or private networking cannot substitute for missing platform acceptance.
+The current Platform Contract records each applicable integration as blocked and overall conformance as nonconformant. Repository CI, compatibility tests, deployment validation, encryption, private networking, or another system's acceptance cannot substitute for missing per-system acceptance.
 
 ## Governance
 

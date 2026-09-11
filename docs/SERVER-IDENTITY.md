@@ -2,42 +2,38 @@
 
 ## Status
 
-Canonical and active.
+Canonical and active server identity. Product lifecycle remains Development/non-Stable.
 
 ## Canonical identity
 
-- Official name: **GoreeCloud Vault Server**
-- Short presentation: **Vault Server** when the GoreeCloud context is already explicit
+- Official server name: **GoreeCloud Vault Server**
+- Parent product: **GoreeCloud Vault**
+- Short presentation: **Vault Server** when GoreeCloud context is explicit
 - Repository: `GoreeCloud/goreecloud-vault-server`
 - Canonical service address: `https://vault.goreecloud.com`
-- Development model: GoreeCloud-maintained open-source fork with controlled fork-to-native transition
-- Upstream foundation: Vaultwarden
+- Current implementation model: forked-to-native transitional
+- Transitional upstream foundation: Vaultwarden
 - Upstream repository: `dani-garcia/vaultwarden`
 - License: AGPL-3.0-only
-- Design language: Glaze UI
-- Security identity: Wardveil Security by GoreeCloud
+- Design system: current applicable Stable Glaze UI contract
+- Security framework: Wardveil Security
+- Privacy framework: Privacy Shield
+- Continuity and recovery framework: Everkeep
 
 ## Naming decision
 
-The former server name **GoreeVault Server** is retired for new server-facing use. Existing historical records may retain it when preserving chronology, but current server documentation and product surfaces must present **GoreeCloud Vault Server**.
+The former server name **GoreeVault Server** is retired for current presentation.
 
-`GoreeVault` is not automatically retired by this server rename. It remains the broader client-family and historical project identity for GoreeVault Web, Browser, Desktop, Mobile, and compatibility-era artifacts unless those products receive separate naming decisions.
+The former product name **GoreeVault** is retired. It is not a current client-family name, alternate brand, or parallel product. Current client and product presentation must use GoreeCloud Vault, GoreeCloud Vault Web, GoreeCloud Vault Browser, GoreeCloud Vault Desktop, GoreeCloud Vault Mobile, and GoreeCloud Vault CLI as applicable.
+
+Historical records and compatibility-sensitive implementation identifiers may retain GoreeVault only where changing or rewriting them would damage historical accuracy, migration safety, retained evidence, interoperability, or data integrity. Those references are legacy implementation details and must not be presented as current product identity.
 
 ## Required presentation boundary
 
-Use **GoreeCloud Vault Server** in:
+Use **GoreeCloud Vault Server** for server runtime, administration, deployment, release, recovery, security, monitoring, and backend-specific documentation. Use **GoreeCloud Vault** for the broader current product family and shared product presentation.
 
-- repository landing documentation;
-- server administration and error surfaces;
-- server release notes and changelogs;
-- deployment and recovery documentation;
-- security and production-readiness records when referring specifically to the server;
-- Google Drive project records and inventories when identifying this server component.
-
-Do not rename compatibility-sensitive internal `vaultwarden` identifiers solely for branding. Internal identifiers, protocol semantics, migrations, and cryptographic behavior remain governed by compatibility and security review.
+Do not rename compatibility-sensitive internal `vaultwarden` or historical `goreevault` identifiers solely for cosmetic reasons. Any such migration must preserve evidence history, user data, interoperability, release governance, and rollback safety.
 
 ## Repository invariants
 
-The repository-readiness validator must fail closed if the canonical README heading or the machine-readable server identity drifts from this document.
-
-The machine-readable mirror is `docs/server-identity.json`.
+`README.md`, `VAULT.md`, current transactional presentation, and the machine-readable `docs/server-identity.json` must agree with this identity. `scripts/validate-repository-readiness.py` and `scripts/validate-glaze-ui.py` must fail closed on reintroduction of the retired name as active presentation.

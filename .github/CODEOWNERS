@@ -1,14 +1,17 @@
-# GoreeVault review ownership
+# GoreeCloud Vault Server review ownership
 #
-# GoreeVault is maintained by GoreeCloud. Upstream Vaultwarden maintainers are
-# not automatically responsible for reviewing GoreeVault-specific changes.
+# GoreeCloud Vault Server is maintained by GoreeCloud. The Vaultwarden-derived
+# runtime is transitional and upstream maintainers are not automatically
+# responsible for reviewing GoreeCloud-specific changes.
 
-# Repository automation, policy, release, security, and public project identity
+# Repository automation, policy, release, security, and current product identity
 /.github/** @GoreeCloud
 /README.md @GoreeCloud
+/VAULT.md @GoreeCloud
+/BRANDING.md @GoreeCloud
 /SECURITY.md @GoreeCloud
 /CONTRIBUTING.md @GoreeCloud
-/GOREVAULT.md @GoreeCloud
+/goreecloud.platform.yaml @GoreeCloud
 /.trivyignore.yaml @GoreeCloud
 /docs/** @GoreeCloud
 
@@ -23,17 +26,19 @@
 /docker/** @GoreeCloud
 /deploy/** @GoreeCloud
 
-# All GoreeVault runtime source, including authentication, cryptography,
-# authorization, persistence, SSO, rate limiting, configuration, and the
-# GoreeVault-owned Glaze UI presentation layer.
+# Transitional server runtime, including authentication, cryptography,
+# authorization, persistence, SSO, rate limiting, configuration, and server UI.
 /src/** @GoreeCloud
 /migrations/** @GoreeCloud
 
-# Temporary GoreeVault Web incubation application boundary. This directory must
-# move to the dedicated GoreeVault Web repository before Stable promotion.
+# Temporary GoreeCloud Vault Web incubation boundary. This directory must move
+# to a dedicated current-name client repository before Stable promotion.
 /web-client/** @GoreeCloud
 
+# Proposed long-term native GoreeCloud Vault Server boundary.
+/native/** @GoreeCloud
+
 # Release-blocking compatibility, recovery, migration, deployment, security,
-# repository-readiness, and Glaze UI conformance harnesses.
+# repository-readiness, naming, and Glaze UI conformance harnesses.
 /tests/** @GoreeCloud
 /scripts/** @GoreeCloud

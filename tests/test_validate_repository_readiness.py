@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Unit tests for GoreeCloud Vault Server repository-readiness policy validation.
-
-The tests redirect the validator's repository root into isolated temporary
-fixtures so fail-closed policy behavior is exercised without modifying real
-project files.
-"""
+"""Unit tests for GoreeCloud Vault Server repository-readiness policy validation."""
 
 from __future__ import annotations
 
@@ -35,6 +30,76 @@ class RepositoryReadinessTests(unittest.TestCase):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(text, encoding="utf-8")
 
+    def platform_system_lines(self) -> str:
+        return "\n".join(VALIDATOR.PLATFORM_SYSTEMS) + "\n"
+
+    def write_canonical_product_records(self) -> None:
+        systems = self.platform_system_lines()
+        self.write(
+            "CONTRIBUTING.md",
+            "GoreeVault is retired. GoreeCloud Vault Web is current.\n"
+            "Use goreecloud.platform.yaml and preserve its fail-closed state.\n",
+        )
+        self.write(
+            "USER-MANUAL.md",
+            "GoreeVault is retired.\n## GoreeCloud Vault Web Argon2id work\n"
+            "Use goreecloud.platform.yaml; it records overall conformance as nonconformant.\n" + systems,
+        )
+        self.write(
+            "docs/ROADMAP.md",
+            "GoreeVault is retired.\n"
+            "## v0.3.0 — GoreeCloud Vault Web foundation\n"
+            "## v0.4.0 — GoreeCloud Vault Browser foundation\n"
+            "## v0.5.0 — GoreeCloud Vault Desktop foundation\n"
+            "## v0.6.0 — GoreeCloud Vault Mobile foundation\n"
+            "GoreeCloud/goreecloud-vault-web\n",
+        )
+        self.write(
+            "docs/OPEN-READINESS-BLOCKERS.md",
+            "GoreeVault is retired. Historical compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain.\n"
+            "## Blocker 5 — Product-wide Glaze UI ownership and GoreeCloud Vault Web completion\n"
+            "GoreeCloud/goreecloud-vault-web\n"
+            "## Blocker 7 — Integral Platform System acceptance\n"
+            "overall service conformance as nonconformant\n",
+        )
+        self.write(
+            "docs/RC-EVIDENCE.md",
+            "GoreeVault is retired.\n"
+            "The future GoreeCloud Vault Web boundary remains blocked.\n"
+            "Transactional email presentation uses the documented GoreeCloud Vault family identity.\n"
+            "GoreeVault workflow labels are legacy automation identifiers.\n"
+            "goreevault-stable-evidence.json is a compatibility-era evidence filename.\n"
+            "## Integral Platform System acceptance\n"
+            "All applicable Integral Platform Systems independently accepted for this candidate: NO\n"
+            "schema-version-2 `goreevault-stable-evidence.json` has no dedicated fields\n" + systems,
+        )
+        self.write(
+            "docs/REPOSITORY-STRUCTURE.md",
+            "GoreeVault is retired.\n### `VAULT.md`\n### `goreecloud.platform.yaml`\n"
+            "### `web-client/`\nGoreeCloud/goreecloud-vault-web\n",
+        )
+        self.write(
+            "docs/PRODUCTION-READINESS.md",
+            "GoreeVault is retired.\n## Integral Platform System acceptance\n"
+            "Use goreecloud.platform.yaml. schema version 2 does not accept ad hoc platform-system fields.\n" + systems,
+        )
+        self.write(
+            "docs/SECURITY-MODEL.md",
+            "GoreeVault is retired.\n"
+            "Do not claim Wardveil Security, Privacy Shield, Everkeep, GoreeCloud Mesh, GoreeCloud Identity, GoreeCloud Manager, or Glaze UI acceptance without evidence.\n",
+        )
+        self.write(
+            "docs/STABLE-EVIDENCE.md",
+            "GoreeVault is retired.\n### Integral Platform System boundary\n"
+            "The schema-version-2 JSON does **not** contain dedicated evidence objects for all systems.\n"
+            "Do not add ad hoc fields to the Stable JSON.\n"
+            "A passing file does not prove overall GoreeCloud Platform Contract conformance.\n",
+        )
+        self.write(
+            "docs/UPSTREAM.md",
+            "GoreeVault is retired. The audit is a point-in-time historical snapshot.\n",
+        )
+
     def test_codeowners_requires_core_goreecloud_ownership(self) -> None:
         self.write(".github/CODEOWNERS", "/README.md @GoreeCloud\n")
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "CODEOWNERS is missing"):
@@ -43,7 +108,8 @@ class RepositoryReadinessTests(unittest.TestCase):
     def test_codeowners_accepts_required_protected_surfaces(self) -> None:
         required = [
             "/README.md @GoreeCloud",
-            "/GOREVAULT.md @GoreeCloud",
+            "/VAULT.md @GoreeCloud",
+            "/goreecloud.platform.yaml @GoreeCloud",
             "/docs/** @GoreeCloud",
             "/src/** @GoreeCloud",
             "/tests/** @GoreeCloud",
@@ -63,57 +129,47 @@ class RepositoryReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "GoreeCloud Vault Server identity"):
             VALIDATOR.validate_readme()
 
-    def test_server_identity_manifest_requires_canonical_name(self) -> None:
-        self.write(
-            "docs/SERVER-IDENTITY.md",
-            "# GoreeCloud Vault Server Identity\nformer server name **GoreeVault Server**\n`GoreeVault` is not automatically retired\n",
-        )
-        self.write(
-            "docs/server-identity.json",
+    def identity_json(self, canonical_name: str = "GoreeCloud Vault Server") -> str:
+        return (
             "{\n"
-            '  "schema_version": 1,\n'
-            '  "canonical_name": "GoreeVault Server",\n'
+            '  "schema_version": 2,\n'
+            f'  "canonical_name": "{canonical_name}",\n'
+            '  "product_family_name": "GoreeCloud Vault",\n'
             '  "short_name": "Vault Server",\n'
             '  "repository": "GoreeCloud/goreecloud-vault-server",\n'
             '  "canonical_service_url": "https://vault.goreecloud.com",\n'
             '  "former_server_name": "GoreeVault Server",\n'
-            '  "client_family_name": "GoreeVault",\n'
+            '  "retired_product_name": "GoreeVault",\n'
+            '  "development_model": "forked-to-native-transitional",\n'
             '  "upstream_project": "Vaultwarden",\n'
             '  "upstream_repository": "dani-garcia/vaultwarden",\n'
-            '  "development_model": "goreecloud-maintained-fork-with-controlled-fork-to-native-transition",\n'
             '  "design_language": "Glaze UI",\n'
-            '  "security_identity": "Wardveil Security by GoreeCloud",\n'
+            '  "security_framework": "Wardveil Security",\n'
+            '  "privacy_framework": "Privacy Shield",\n'
+            '  "continuity_framework": "Everkeep",\n'
             '  "license": "AGPL-3.0-only",\n'
-            '  "status": "active"\n'
-            "}\n",
+            '  "lifecycle": "development",\n'
+            '  "stable_approved": false\n'
+            "}\n"
         )
+
+    def identity_human(self) -> str:
+        return (
+            "# GoreeCloud Vault Server Identity\n"
+            "The former server name **GoreeVault Server** is retired.\n"
+            "The former product name **GoreeVault** is retired.\n"
+            "GoreeCloud Vault Web and GoreeCloud Vault CLI are current family names.\n"
+        )
+
+    def test_server_identity_manifest_requires_canonical_name(self) -> None:
+        self.write("docs/SERVER-IDENTITY.md", self.identity_human())
+        self.write("docs/server-identity.json", self.identity_json("GoreeVault Server"))
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "canonical_name"):
             VALIDATOR.validate_server_identity()
 
     def test_server_identity_manifest_accepts_canonical_contract(self) -> None:
-        self.write(
-            "docs/SERVER-IDENTITY.md",
-            "# GoreeCloud Vault Server Identity\nformer server name **GoreeVault Server**\n`GoreeVault` is not automatically retired\n",
-        )
-        self.write(
-            "docs/server-identity.json",
-            "{\n"
-            '  "schema_version": 1,\n'
-            '  "canonical_name": "GoreeCloud Vault Server",\n'
-            '  "short_name": "Vault Server",\n'
-            '  "repository": "GoreeCloud/goreecloud-vault-server",\n'
-            '  "canonical_service_url": "https://vault.goreecloud.com",\n'
-            '  "former_server_name": "GoreeVault Server",\n'
-            '  "client_family_name": "GoreeVault",\n'
-            '  "upstream_project": "Vaultwarden",\n'
-            '  "upstream_repository": "dani-garcia/vaultwarden",\n'
-            '  "development_model": "goreecloud-maintained-fork-with-controlled-fork-to-native-transition",\n'
-            '  "design_language": "Glaze UI",\n'
-            '  "security_identity": "Wardveil Security by GoreeCloud",\n'
-            '  "license": "AGPL-3.0-only",\n'
-            '  "status": "active"\n'
-            "}\n",
-        )
+        self.write("docs/SERVER-IDENTITY.md", self.identity_human())
+        self.write("docs/server-identity.json", self.identity_json())
         VALIDATOR.validate_server_identity()
 
     def test_security_reporting_requires_private_goreecloud_path(self) -> None:
@@ -138,7 +194,7 @@ class RepositoryReadinessTests(unittest.TestCase):
         VALIDATOR.validate_mutable_production_examples()
 
     def test_open_blocker_tracker_must_preserve_all_stable_gates(self) -> None:
-        self.write("GOREVAULT.md", "multi-user security Glaze UI\n")
+        self.write("VAULT.md", "GoreeCloud Vault\n**GoreeVault** is retired\n")
         self.write("docs/PRODUCTION-READINESS.md", "multi-user security Glaze UI\nStable is therefore blocked\n")
         self.write("docs/GLAZE-UI.md", "temporary development divergence\nNo production Glaze UI exception is approved\n")
         self.write("docs/STABLE-EVIDENCE.md", "Schema version 2\n")
@@ -146,10 +202,59 @@ class RepositoryReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "open readiness tracker is missing blocker"):
             VALIDATOR.validate_goreecloud_gates()
 
+    def test_open_blocker_tracker_requires_platform_acceptance(self) -> None:
+        blockers = "\n".join(
+            (
+                "Status:** Stable blocked",
+                "GitHub repository governance",
+                "Real supported-client matrix",
+                "Real WebAuthn/passkey path",
+                "Target-environment production rehearsal",
+                "Product-wide Glaze UI ownership",
+                "Exact-RC Stable evidence",
+            )
+        )
+        self.write("VAULT.md", "GoreeCloud Vault\n**GoreeVault** is retired\n")
+        self.write("docs/PRODUCTION-READINESS.md", "multi-user security Glaze UI\nStable is therefore blocked\n")
+        self.write("docs/GLAZE-UI.md", "temporary development divergence\nNo production Glaze UI exception is approved\n")
+        self.write("docs/STABLE-EVIDENCE.md", "Schema version 2\n")
+        self.write("docs/OPEN-READINESS-BLOCKERS.md", blockers + "\n")
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "Integral Platform System acceptance"):
+            VALIDATOR.validate_goreecloud_gates()
+
+    def test_canonical_product_records_accept_legacy_identifiers_when_classified(self) -> None:
+        self.write_canonical_product_records()
+        VALIDATOR.validate_canonical_product_records()
+
+    def test_canonical_product_records_reject_stale_current_client_family(self) -> None:
+        self.write_canonical_product_records()
+        self.write(
+            "docs/OPEN-READINESS-BLOCKERS.md",
+            "GoreeVault is retired. Historical compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain.\n"
+            "`GoreeVault` remains the broader client-family.\n"
+            "## Blocker 5 — Product-wide Glaze UI ownership and GoreeCloud Vault Web completion\n"
+            "GoreeCloud/goreecloud-vault-web\n"
+            "## Blocker 7 — Integral Platform System acceptance\n"
+            "overall service conformance as nonconformant\n",
+        )
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "retired current-product wording"):
+            VALIDATOR.validate_canonical_product_records()
+
+    def test_canonical_product_records_require_platform_schema_boundary(self) -> None:
+        self.write_canonical_product_records()
+        self.write("docs/STABLE-EVIDENCE.md", "GoreeVault is retired.\n### Integral Platform System boundary\n")
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "missing canonical GoreeCloud Vault policy controls"):
+            VALIDATOR.validate_canonical_product_records()
+
     def test_stable_template_requires_multi_user_and_glaze_fields(self) -> None:
         self.write("docs/stable-evidence.example.json", '{"schema_version": 2, "multi_user": {}}\n')
         with self.assertRaisesRegex(VALIDATOR.ReadinessError, "Stable evidence template is missing"):
             VALIDATOR.validate_stable_template()
+
+    def test_platform_contract_requires_all_current_systems(self) -> None:
+        self.write("goreecloud.platform.yaml", "schema_version: '0.2'\ncomponent:\n  id: goreecloud-vault-server\n  product_name: GoreeCloud Vault Server\n  product_family: GoreeCloud Vault\nlifecycle: development\nconformance:\n  status: nonconformant\n")
+        with self.assertRaisesRegex(VALIDATOR.ReadinessError, "platform contract is missing"):
+            VALIDATOR.validate_platform_contract()
 
 
 if __name__ == "__main__":
