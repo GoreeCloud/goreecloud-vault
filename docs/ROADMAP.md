@@ -84,7 +84,7 @@ This milestone is required for the current product-wide Stable path because Gore
 - immutable release, dependency, SBOM, migration, and rollback requirements;
 - an explicit rule that creating a shell or repository does not close the Stable blocker by itself.
 
-The dedicated **`GoreeCloud/goreecloud-vault-web`** repository/application remains to be created and implemented. Any historical `goreevault-web` planning reference is superseded for current naming purposes.
+The dedicated **`GoreeCloud/goreecloud-vault-web`** repository/application remains to be created and implemented.
 
 ### Required implementation foundation
 
