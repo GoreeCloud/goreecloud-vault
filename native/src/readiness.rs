@@ -1,4 +1,4 @@
-//! Fail-closed lifecycle readiness for the native GoreeCloud Vault Server.
+//! Fail-closed lifecycle readiness for the native `GoreeCloud` Vault Server.
 //!
 //! These gates describe integration and acceptance state, not runtime secrets.
 //! A green source build does not make any gate ready automatically.
