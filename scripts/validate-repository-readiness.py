@@ -25,7 +25,9 @@ REQUIRED_FILES = {
     "docs/OPEN-READINESS-BLOCKERS.md",
     "docs/PRODUCTION-DEPLOYMENT.md",
     "docs/PRODUCTION-READINESS.md",
+    "docs/RC-EVIDENCE.md",
     "docs/REPOSITORY-STRUCTURE.md",
+    "docs/ROADMAP.md",
     "docs/SECURITY-MODEL.md",
     "docs/STABLE-EVIDENCE.md",
     "docs/UPSTREAM.md",
@@ -167,6 +169,64 @@ def validate_goreecloud_gates() -> None:
     require("Status:** Stable blocked" in blockers, "open readiness tracker must preserve the Stable-blocked state")
 
 
+def validate_canonical_product_records() -> None:
+    records = {
+        "docs/ROADMAP.md": read("docs/ROADMAP.md"),
+        "docs/OPEN-READINESS-BLOCKERS.md": read("docs/OPEN-READINESS-BLOCKERS.md"),
+        "docs/RC-EVIDENCE.md": read("docs/RC-EVIDENCE.md"),
+    }
+
+    required = {
+        "docs/ROADMAP.md": (
+            "GoreeVault is retired",
+            "GoreeCloud Vault Web foundation",
+            "GoreeCloud Vault Browser foundation",
+            "GoreeCloud Vault Desktop foundation",
+            "GoreeCloud Vault Mobile foundation",
+            "GoreeCloud/goreecloud-vault-web",
+        ),
+        "docs/OPEN-READINESS-BLOCKERS.md": (
+            "GoreeVault is retired",
+            "GoreeCloud Vault Web completion",
+            "GoreeCloud/goreecloud-vault-web",
+            "compatibility-sensitive `GoreeVault`/`goreevault` identifiers",
+        ),
+        "docs/RC-EVIDENCE.md": (
+            "GoreeVault is retired",
+            "GoreeCloud Vault Web",
+            "Transactional email presentation uses the documented GoreeCloud Vault family identity",
+            "legacy automation identifiers",
+            "compatibility-era evidence filename",
+        ),
+    }
+    for path, tokens in required.items():
+        missing = [token for token in tokens if token not in records[path]]
+        require(not missing, f"{path} is missing canonical GoreeCloud Vault naming controls: {', '.join(missing)}")
+
+    forbidden = {
+        "docs/ROADMAP.md": (
+            "preserving **GoreeVault** for the client family",
+            "## v0.3.0 — GoreeVault Web foundation",
+            "## v0.4.0 — GoreeVault Browser foundation",
+            "## v0.5.0 — GoreeVault Desktop foundation",
+            "## v0.6.0 — GoreeVault Mobile foundation",
+        ),
+        "docs/OPEN-READINESS-BLOCKERS.md": (
+            "`GoreeVault` remains the broader client-family",
+            "approved current path is GoreeVault Web",
+            "GoreeCloud/goreevault-web",
+        ),
+        "docs/RC-EVIDENCE.md": (
+            "`GoreeVault` remains the broader client-family",
+            "documented GoreeVault-family identity",
+            "future GoreeVault Web boundary",
+        ),
+    }
+    for path, phrases in forbidden.items():
+        stale = [phrase for phrase in phrases if phrase in records[path]]
+        require(not stale, f"{path} contains retired current-product wording: {', '.join(stale)}")
+
+
 def validate_stable_template() -> None:
     text = read("docs/stable-evidence.example.json")
     required_tokens = {
@@ -211,6 +271,7 @@ def main() -> int:
         validate_codeowners()
         validate_security_reporting()
         validate_goreecloud_gates()
+        validate_canonical_product_records()
         validate_stable_template()
         validate_mutable_production_examples()
         validate_platform_contract()
