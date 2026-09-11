@@ -11,6 +11,10 @@
 /BRANDING.md @GoreeCloud
 /SECURITY.md @GoreeCloud
 /CONTRIBUTING.md @GoreeCloud
+/BENEFITS.md @GoreeCloud
+/COMPETITIVE-OBJECTIVES.md @GoreeCloud
+/FEATURES.md @GoreeCloud
+/SPECIFICATIONS.md @GoreeCloud
 /goreecloud.platform.yaml @GoreeCloud
 /.trivyignore.yaml @GoreeCloud
 /docs/** @GoreeCloud
@@ -35,8 +39,10 @@
 # to a dedicated current-name client repository before Stable promotion.
 /web-client/** @GoreeCloud
 
-# Proposed long-term native GoreeCloud Vault Server boundary.
+# Development-only long-term native GoreeCloud Vault Server boundary.
+# Source ownership here does not imply native architecture or production acceptance.
 /native/** @GoreeCloud
+/.github/workflows/goreevault-native-foundation.yml @GoreeCloud
 
 # Release-blocking compatibility, recovery, migration, deployment, security,
 # repository-readiness, naming, and Glaze UI conformance harnesses.
