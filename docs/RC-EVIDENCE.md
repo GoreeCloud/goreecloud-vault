@@ -2,9 +2,9 @@
 
 Use this file as the human-readable evidence index for each GoreeCloud Vault Server Release Candidate. Copy it into a versioned/datestamped evidence record or complete an equivalent retained release record before promotion. Do not overwrite evidence from one source commit, browser-vault asset, or OCI digest with results from another.
 
-This record complements, but does not replace, the machine-readable `goreevault-stable-evidence.json` required for Stable promotion. That compatibility-era evidence filename is intentionally retained by current tooling and does not define the canonical server name.
+This record complements, but does not replace, the machine-readable `goreevault-stable-evidence.json` required for Stable promotion. That compatibility-era evidence filename is intentionally retained by current tooling and does not define the canonical product or server name.
 
-`GoreeVault` remains the broader client-family and historical product identity. Existing workflow display names may retain GoreeVault where changing them provides no security or operational benefit.
+**GoreeCloud Vault** is the single canonical current product/client family and **GoreeCloud Vault Server** is its canonical backend. **GoreeVault is retired** as a current product identity. Existing workflow display names may retain GoreeVault only as legacy automation identifiers until a separately validated workflow-identity migration is completed; those labels do not define the current product name.
 
 ## Evidence-state vocabulary
 
@@ -85,7 +85,7 @@ Record the GitHub Actions run URL/ID and conclusion for the exact candidate sour
 | Code Spell Checking | | NOT VERIFIED |
 | Security Analysis with zizmor | | NOT VERIFIED |
 
-Workflow display names above are existing automation identifiers, not the canonical product name.
+The `GoreeVault …` workflow display names above are retained legacy automation identifiers. They may be used to identify exact historical/current workflow runs until the workflow-name migration is separately validated, but they are not a current product-family naming exception.
 
 Where a broader workflow contains multiple release-critical jobs, retain enough detail to prove the required jobs passed rather than recording only an ambiguous workflow name.
 
@@ -210,7 +210,7 @@ Machine-observed or directly verified controls:
 - rollback recorded/rehearsed as applicable: NOT VERIFIED
 - monitoring verified: NOT VERIFIED
 - logs reviewed for sensitive-data minimization: NOT VERIFIED
-- approved NetBird/private administrative path verified: NOT VERIFIED
+- approved private administrative path verified: NOT VERIFIED
 - evidence timestamp and timezone:
 - backup reference:
 - rollback reference:
@@ -226,14 +226,14 @@ After the work actually occurs, `scripts/collect-target-evidence.py` may be used
 ### Server-owned surfaces
 
 - GoreeCloud Vault Server Admin/error surfaces pass repository Glaze UI gate: NOT VERIFIED
-- Transactional email presentation retains the documented GoreeVault-family identity and approved email-safe Glaze treatment: NOT VERIFIED
+- Transactional email presentation uses the documented GoreeCloud Vault family identity and approved email-safe Glaze treatment: NOT VERIFIED
 - Server-owned presentation has no unapproved remote analytics/tracking dependency: NOT VERIFIED
 
 ### Product-wide browser ownership
 
 The current bundled upstream-compatible browser vault is a temporary compatibility dependency. Under the current approved GoreeCloud path, it does **not** satisfy product-wide Stable Glaze UI ownership.
 
-`docs/WEB-CLIENT-CONTRACT.md` defines the future GoreeVault Web boundary. Until that separate client is implemented and accepted, record:
+`docs/WEB-CLIENT-CONTRACT.md` defines the future **GoreeCloud Vault Web** boundary. Until that separate client is implemented and accepted, record:
 
 - Primary production browser vault is GoreeCloud-owned: NO
 - Product-wide Glaze UI conformance proven: NO
