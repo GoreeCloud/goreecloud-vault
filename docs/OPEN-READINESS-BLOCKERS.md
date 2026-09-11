@@ -136,6 +136,24 @@ The compatibility-era evidence filename is intentionally retained by current too
 
 The target-environment collector may provide only the `target_environment` object. It must not be treated as a complete Stable evidence file or as approval for any other section.
 
+## Blocker 7 — Integral Platform System acceptance
+
+`goreecloud.platform.yaml` currently declares all seven Integral Platform Systems as applicable but blocked, and overall service conformance as nonconformant. Stable remains blocked until each applicable system independently accepts the exact relevant GoreeCloud Vault Server state through its own authoritative evidence process.
+
+Required acceptance/evidence references are:
+
+- GoreeCloud Manager: NOT VERIFIED / BLOCKED
+- Privacy Shield: NOT VERIFIED / BLOCKED
+- Wardveil Security: NOT VERIFIED / BLOCKED
+- Everkeep: NOT VERIFIED / BLOCKED
+- Glaze UI: NOT VERIFIED / BLOCKED
+- GoreeCloud Mesh: NOT VERIFIED / BLOCKED
+- GoreeCloud Identity: NOT VERIFIED / BLOCKED
+
+A source-level integration, manifest declaration, another system's pass, repository CI, or a successful deployment does not close this blocker. Each applicable system must prove its own accepted scope and evidence freshness. The accepted references must be retained in the versioned `docs/RC-EVIDENCE.md` record or equivalent exact-candidate release record.
+
+Schema-version-2 `goreevault-stable-evidence.json` does not currently provide dedicated fields for every Integral Platform System. Do not add ad hoc fields to that strict schema. Until a separately governed schema revision incorporates them, authoritative platform-system acceptance records remain an additional Stable prerequisite outside that JSON object.
+
 ## Completion rule
 
 Do not delete a blocker merely because work started or partial evidence exists. Mark it complete only when the applicable requirement is objectively satisfied and the final evidence is retained in the proper release or governance record.
