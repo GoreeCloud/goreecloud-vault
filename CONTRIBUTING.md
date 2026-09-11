@@ -1,8 +1,8 @@
 # Contributing to GoreeCloud Vault Server
 
-GoreeCloud Vault Server is a security-sensitive GoreeCloud project currently derived from Vaultwarden. Compatibility, zero-knowledge security boundaries, GoreeCloud standards, multi-user isolation, Glaze UI, and evidence-backed readiness take priority over aggressive renaming or refactoring.
+GoreeCloud Vault Server is a security-sensitive GoreeCloud project currently derived from Vaultwarden. Compatibility, zero-knowledge security boundaries, GoreeCloud standards, multi-user isolation, Glaze UI, and evidence-backed readiness take priority over aggressive or unsafe refactoring.
 
-`GoreeVault` remains the broader client-family and historical product identity. Server-specific changes in this repository must follow `docs/SERVER-IDENTITY.md` and `docs/server-identity.json`.
+**GoreeCloud Vault** is the single canonical current product family and **GoreeCloud Vault Server** is its backend service. **GoreeVault is retired** as a current product identity. Historical or compatibility-sensitive `GoreeVault`/`goreevault` identifiers may remain only where preserving them is necessary for migration, rollback, interoperability, evidence continuity, or historical truth. Product-facing changes in this repository must follow `VAULT.md`, `docs/SERVER-IDENTITY.md`, and `docs/server-identity.json`.
 
 ## Development principles
 
@@ -11,12 +11,13 @@ GoreeCloud Vault Server is a security-sensitive GoreeCloud project currently der
 3. Keep authentication, cryptography, key handling, token behavior, authorization, database migrations, and storage changes small and reviewable.
 4. Never use real GoreeCloud credentials, production vault exports, production databases, production backups, or private user data in tests.
 5. Add or extend regression coverage for every behavior that changes.
-6. Keep upstream provenance clear so Vaultwarden security and compatibility fixes remain practical to evaluate and merge.
-7. Prefer the canonical GoreeCloud Vault Server identity at server presentation and deployment boundaries before renaming internal compatibility identifiers.
+6. Keep upstream provenance clear so Vaultwarden security and compatibility fixes remain practical to evaluate and merge during the transitional server phase.
+7. Use the canonical GoreeCloud Vault family names on current product, server, client, presentation, documentation, and release surfaces. Retain legacy identifiers only when the compatibility or historical reason is explicit.
 8. Every GoreeCloud-controlled user interface must follow `docs/GLAZE-UI.md` and the shared GoreeCloud Glaze UI Design Language.
 9. Production-readiness claims require exact-artifact evidence defined by `docs/PRODUCTION-READINESS.md`; a successful build alone is not production authorization.
 10. Follow `docs/REPOSITORY-STRUCTURE.md` before adding top-level components or moving compatibility-sensitive source.
-11. Do not rename the GoreeVault client family as a side effect of server work; client naming changes require a separate product decision.
+11. Do not silently rename compatibility-sensitive identifiers. Migrate them only with explicit compatibility, data-integrity, rollback, and evidence review.
+12. Preserve the fail-closed state of `goreecloud.platform.yaml`: no Integral Platform System may be marked accepted without its own qualifying evidence.
 
 ## Pull requests
 
@@ -32,15 +33,16 @@ A pull request should explain:
 - Glaze UI/accessibility impact for user-facing changes;
 - repository structure/ownership impact where applicable;
 - identity/naming impact when a product-facing name changes;
+- Integral Platform System impact where applicable;
 - exact tests and evidence performed.
 
-Changes affecting authentication, cryptography, key material, tokens, user isolation, database migrations, attachments, organizations/collections, backup/restore, client protocol behavior, release workflows, production deployment, or security exceptions require dedicated regression coverage before merge.
+Changes affecting authentication, cryptography, key material, tokens, user isolation, database migrations, attachments, organizations/collections, backup/restore, client protocol behavior, release workflows, production deployment, Platform Contract state, or security exceptions require dedicated regression coverage before merge.
 
 ## Required validation
 
 Run the checks relevant to the change before proposing promotion.
 
-For repository identity, structure, and readiness contracts:
+For repository identity, structure, platform contract, and readiness contracts:
 
 ```bash
 python3 scripts/validate-repository-readiness.py
@@ -96,7 +98,7 @@ GoreeCloud-controlled browser surfaces must not add remote fonts, remote JavaScr
 
 Material UI changes must preserve keyboard access, visible focus, practical 44-pixel targets, System/Light/Dark behavior, reduced-motion support, increased-contrast/forced-colors fallbacks, responsive layouts, and textual state meaning. Source-level Glaze checks are required but do not replace representative browser/accessibility review before Stable.
 
-The bundled Bitwarden-compatible web vault is a temporary compatibility dependency. It is not a permanent Glaze UI exception. Under the current GoreeCloud baseline, Stable product promotion remains blocked until GoreeVault owns the primary browser vault under Glaze UI or a separately approved material exception satisfies the full GoreeCloud exception standard.
+The bundled Bitwarden-compatible web vault is a temporary compatibility dependency. It is not a permanent Glaze UI exception. Under the current GoreeCloud baseline, Stable product promotion remains blocked until **GoreeCloud Vault Web** owns the primary browser-vault presentation under Glaze UI or a separately approved material exception satisfies the full GoreeCloud exception standard.
 
 ## Production deployment
 
@@ -108,7 +110,7 @@ Do not deploy a branch or image merely because CI is green. Follow `docs/PRODUCT
 
 Do not remove upstream attribution or license information. When importing an upstream Vaultwarden change, record the source commit or pull request when practical and resolve GoreeCloud-specific conflicts explicitly rather than hiding them in broad refactors.
 
-Upstream merges must be revalidated against GoreeCloud Vault Server authentication, multi-user authorization, compatibility, security, production deployment, recovery, migration/rollback, and server-owned Glaze presentation boundaries as applicable.
+Upstream merges must be revalidated against GoreeCloud Vault Server authentication, multi-user authorization, compatibility, security, production deployment, recovery, migration/rollback, Platform Contract, and server-owned Glaze presentation boundaries as applicable.
 
 ## Security reports
 
