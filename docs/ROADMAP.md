@@ -1,6 +1,6 @@
 # GoreeCloud Vault Server Roadmap
 
-This roadmap uses **GoreeCloud Vault Server** for the canonical server identity while preserving **GoreeVault** for the client family and historical product identity. See `SERVER-IDENTITY.md` for the authoritative naming boundary.
+This roadmap uses **GoreeCloud Vault** as the single canonical current product family and **GoreeCloud Vault Server** as its canonical backend service. **GoreeVault is retired** as a current product identity. Historical records and compatibility-sensitive identifiers may retain `GoreeVault`/`goreevault` only where preservation is necessary for migration, release evidence, interoperability, rollback, or historical truth. See `SERVER-IDENTITY.md` and `../VAULT.md` for the current naming boundary.
 
 ## v0.1.0 — Foundation
 
@@ -16,7 +16,7 @@ Established:
 
 ## v0.2.0 — Server compatibility, recovery, and hardening
 
-v0.2 is the GoreeCloud Vault Server Release Candidate milestone. It proves the maintained server, compatibility, recovery, deployment, and release foundations. It does **not** by itself authorize product-wide Stable use because the primary browser vault remains an upstream compatibility dependency rather than a GoreeCloud-owned GoreeVault Web Glaze UI surface.
+v0.2 is the GoreeCloud Vault Server Release Candidate milestone. It proves the maintained server, compatibility, recovery, deployment, and release foundations. It does **not** by itself authorize product-wide Stable use because the primary browser vault remains an upstream compatibility dependency rather than a fully accepted GoreeCloud-owned **GoreeCloud Vault Web** Glaze UI surface.
 
 ### Automated API, multi-user, and authentication gates
 
@@ -54,7 +54,7 @@ Established on the certified baseline and required on every release candidate:
 
 Before v0.2 can be treated as a supported server Release Candidate milestone:
 
-- run and record the real supported Bitwarden client matrix on exact candidate artifacts;
+- run and record the real supported client matrix on exact candidate artifacts;
 - perform a real supported-browser/device WebAuthn/passkey flow;
 - complete target-environment deployment rehearsal using the production contract and retain the generated target-environment evidence section;
 - create/verify required GitHub governance controls from `docs/PRODUCTION-READINESS.md`;
@@ -62,18 +62,18 @@ Before v0.2 can be treated as a supported server Release Candidate milestone:
 
 Passing these items proves the server candidate. It does not override the product-wide Glaze UI gate.
 
-## v0.3.0 — GoreeVault Web foundation
+## v0.3.0 — GoreeCloud Vault Web foundation
 
-GoreeVault Web becomes the GoreeCloud-owned browser vault experience rather than a branded wrapper around the upstream-compatible web vault.
+**GoreeCloud Vault Web** becomes the GoreeCloud-owned browser vault experience rather than a branded wrapper around the upstream-compatible web vault.
 
 This milestone is required for the current product-wide Stable path because GoreeCloud requires Glaze UI on every controlled user-facing interface.
 
 ### Foundation contract established
 
-`docs/WEB-CLIENT-CONTRACT.md` now defines the implementation boundary before a dedicated client repository is created. The contract establishes:
+`docs/WEB-CLIENT-CONTRACT.md` defines the implementation boundary before a dedicated client repository is created. The contract establishes:
 
 - Role and Purpose for the browser client;
-- separation between GoreeVault Web and GoreeCloud Vault Server responsibilities;
+- separation between GoreeCloud Vault Web and GoreeCloud Vault Server responsibilities;
 - client-side zero-knowledge and cryptographic boundaries;
 - multi-user account/session isolation requirements;
 - browser storage and key-lifecycle rules;
@@ -84,16 +84,16 @@ This milestone is required for the current product-wide Stable path because Gore
 - immutable release, dependency, SBOM, migration, and rollback requirements;
 - an explicit rule that creating a shell or repository does not close the Stable blocker by itself.
 
-The dedicated GoreeVault Web repository/application remains to be created and implemented.
+The dedicated **`GoreeCloud/goreecloud-vault-web`** repository/application remains to be created and implemented. Any historical `goreevault-web` planning reference is superseded for current naming purposes.
 
 ### Required implementation foundation
 
 - dedicated GoreeCloud-native UI repository/application boundary;
-- **Glaze UI Design Language** as the complete GoreeVault Web presentation and interaction system;
+- **Glaze UI Design Language** as the complete GoreeCloud Vault Web presentation and interaction system;
 - local-only browser presentation dependencies under GoreeCloud Privacy by Default;
 - accessible System/Light/Dark behavior, responsive layouts, keyboard/focus behavior, contrast and forced-colors support;
 - individual multi-user account behavior and safe user/session boundaries;
-- GoreeVault client SDK boundary;
+- GoreeCloud Vault client SDK boundary;
 - client-side vault encryption/decryption architecture using mature compatible cryptographic primitives;
 - secure session locking and memory/key-lifecycle policy;
 - import/export strategy;
@@ -101,9 +101,9 @@ The dedicated GoreeVault Web repository/application remains to be created and im
 - migration/fallback path from the bundled upstream web-vault dependency;
 - browser accessibility and Glaze UI acceptance evidence.
 
-The existing bundled upstream web vault remains a temporary compatibility asset until GoreeVault Web reaches the required compatibility and security gates. It is not a permanent production styling exception.
+The existing bundled upstream web vault remains a temporary compatibility asset until GoreeCloud Vault Web reaches the required compatibility and security gates. It is not a permanent production styling exception.
 
-## v0.4.0 — GoreeVault Browser foundation
+## v0.4.0 — GoreeCloud Vault Browser foundation
 
 - Firefox and Chromium extension;
 - Glaze UI adapted to browser-extension platform conventions;
@@ -112,10 +112,10 @@ The existing bundled upstream web vault remains a temporary compatibility asset 
 - password/passphrase generator;
 - capture/update credentials;
 - secure local lock/unlock lifecycle;
-- GoreeVault client SDK reuse;
+- GoreeCloud Vault client SDK reuse;
 - compatibility and threat-model review.
 
-## v0.5.0 — GoreeVault Desktop foundation
+## v0.5.0 — GoreeCloud Vault Desktop foundation
 
 - GoreeCloud-native desktop client;
 - Glaze UI adapted to desktop accessibility and windowing conventions;
@@ -124,9 +124,9 @@ The existing bundled upstream web vault remains a temporary compatibility asset 
 - browser/desktop handoff strategy where appropriate;
 - update/distribution and code-signing plan.
 
-## v0.6.0 — GoreeVault Mobile foundation
+## v0.6.0 — GoreeCloud Vault Mobile foundation
 
-- Android-first GoreeVault mobile client, with iOS planning as applicable;
+- Android-first GoreeCloud Vault mobile client, with iOS planning as applicable;
 - Glaze UI adapted to native mobile conventions;
 - individual-user authentication/session lifecycle;
 - biometric/device-keystore integration using platform security APIs;
@@ -150,6 +150,6 @@ Stable promotion requires the exact candidate artifact to satisfy `docs/PRODUCTI
 - product-wide Glaze UI conformance for every GoreeCloud-controlled user-facing surface;
 - fail-closed validation of the RC-bound Stable evidence asset before the Stable and `latest` image tags are created.
 
-Under the current approved path, GoreeVault Web must reach its security, compatibility, accessibility, and Glaze UI gates before v1.0 Stable promotion. A future formally approved material exception could alter that dependency only if it satisfies the GoreeCloud exception standard; no such exception is currently approved.
+Under the current approved path, **GoreeCloud Vault Web** must reach its security, compatibility, accessibility, and Glaze UI gates before v1.0 Stable promotion. A future formally approved material exception could alter that dependency only if it satisfies the GoreeCloud exception standard; no such exception is currently approved.
 
 No semantic version or green build can bypass these gates.
