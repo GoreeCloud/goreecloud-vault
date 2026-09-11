@@ -27,9 +27,17 @@ See `VAULT.md`, `docs/SERVER-IDENTITY.md`, and `docs/server-identity.json` for t
 
 The current server remains a Vaultwarden-derived transitional implementation because compatibility, migration, recovery, cryptographic, and protocol risks make an immediate replacement unsafe. The long-term product-defining architecture must become original GoreeCloud-owned software. Mature cryptographic primitives, standards, protocol implementations, database engines, and other narrowly justified foundations may remain where replacing them would materially increase risk.
 
-Open PR #41 contains a separately reviewed native GoreeCloud Vault Server foundation. This naming and platform-contract work does not merge, supersede, or falsely complete that native migration.
+The `native/` tree is a development-only original GoreeCloud-owned server foundation. It currently contains a fail-closed readiness model and an owner-scoped in-memory store for opaque encrypted record bytes. It does **not** replace the transitional runtime, establish accepted native architecture, satisfy the Platform Contract, authorize production use, or qualify the service for Stable.
 
 Protected vault contents remain client-encrypted where required by the compatible zero-knowledge model. The server must not require plaintext access to protected passwords, notes, private keys, passkey private material, payment information, or other protected vault content merely to synchronize it.
+
+## Native development foundation
+
+The native foundation is intentionally narrow and source-only. Its `native_foundation=true` status means the reviewed development boundary exists; every production and platform acceptance gate remains false.
+
+The native readiness model explicitly includes GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, Glaze UI, GoreeCloud Mesh, and GoreeCloud Identity, plus persistent storage, real supported clients, WebAuthn/passkey acceptance, migration/rollback acceptance, repository/release governance, target-environment acceptance, and production approval. The repository-root `goreecloud.platform.yaml` remains authoritative for Platform Contract state and currently records all seven Integral Platform Systems as `applicable-blocked` with overall conformance `nonconformant`.
+
+See `native/README.md`, `FEATURES.md`, and `SPECIFICATIONS.md` for the bounded development contract. Green native CI is evidence that this source foundation builds and remains fail closed; it is not evidence of production or platform acceptance.
 
 ## Multi-user and authorization model
 
@@ -75,10 +83,10 @@ deploy/        reviewed deployment contracts and environment templates
 docker/        transitional upstream-compatible image build inputs
 docs/          architecture, identity, readiness, recovery, UI and governance records
 migrations/    compatibility-sensitive database migrations
+native/        development-only original GoreeCloud-owned server foundation
 scripts/       validation, evidence, migration and release tooling
 src/           transitional Rust server runtime plus GoreeCloud-owned server presentation
 tests/         compatibility and release-blocking regression coverage
-native/        proposed long-term GoreeCloud-owned server boundary when accepted
 ```
 
 See `docs/REPOSITORY-STRUCTURE.md` before changing a product-defining or compatibility-sensitive boundary.
@@ -94,6 +102,7 @@ python3 scripts/validate-evidence-tooling.py
 python3 tests/test_collect_target_evidence.py
 bash scripts/validate-production-deployment.sh
 bash scripts/compat.sh
+cargo test --locked --manifest-path native/Cargo.toml
 ```
 
 Historical workflow names, evidence filenames, local-storage keys, or other internal identifiers containing `goreevault` may remain temporarily when renaming them could break retained evidence, CI history, user preferences, migration tooling, or compatibility. Such identifiers are legacy implementation details, not current product identity, and should be migrated through controlled follow-up work.
@@ -106,4 +115,4 @@ GoreeCloud Vault Server is not affiliated with or endorsed by Bitwarden, Inc. Bi
 
 ## Release boundary
 
-Stable remains blocked until the exact release candidate satisfies the required native-development, security, privacy, accessibility, multi-user, supported-client, WebAuthn/passkey, migration, rollback, target-environment, repository-governance, recovery, Glaze UI, and seven-system platform acceptance gates. No documentation or naming change can waive those requirements.
+Stable remains blocked until the exact release candidate satisfies the required native-development, security, privacy, accessibility, multi-user, supported-client, WebAuthn/passkey, migration, rollback, target-environment, repository-governance, recovery, Glaze UI, and seven-system platform acceptance gates. No documentation, naming change, or native source merge can waive those requirements.
