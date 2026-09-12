@@ -86,7 +86,7 @@ This milestone is required for the current product-wide Stable path because Gore
 - immutable release, dependency, SBOM, migration, and rollback requirements;
 - an explicit rule that repository co-location or creating a shell does not close the Stable blocker by itself.
 
-The current implementation boundary is `web-client/` in **`GoreeCloud/goreecloud-vault`**. A separate `GoreeCloud/goreecloud-vault-web` repository is not required by the approved product-family repository model unless a later authoritative architecture decision explicitly introduces one.
+The current implementation boundary is `web-client/` in **`GoreeCloud/goreecloud-vault`**. A separate Web repository is not required by the approved product-family repository model unless a later authoritative architecture decision explicitly introduces one.
 
 ### Required implementation foundation
 
