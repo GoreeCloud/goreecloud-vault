@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GoreeCloud Vault</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel" aria-labelledby="title">
+    <header class="brand-row">
+      <div class="brand-mark" aria-hidden="true">V</div>
+      <div>
+        <p class="eyebrow">GoreeCloud</p>
+        <h1 id="title">Vault</h1>
+      </div>
+      <span class="status-pill" id="lifecycle">Pre-Alpha</span>
+    </header>
+
+    <section class="notice" aria-labelledby="vault-status-title">
+      <div>
+        <p class="eyebrow">Credential authority</p>
+        <h2 id="vault-status-title">Vault locked by contract</h2>
+      </div>
+      <p id="vault-status">Protected credential retrieval remains disabled until the reviewed Vault client connection is available.</p>
+    </section>
+
+    <section class="card" aria-labelledby="page-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Current page</p>
+          <h2 id="page-title">Credential fields</h2>
+        </div>
+        <button class="secondary" id="scan-page" type="button">Scan</button>
+      </div>
+      <p class="muted" id="page-result" role="status">Open the extension on a sign-in or password-change page, then scan.</p>
+    </section>
+
+    <section class="card" aria-labelledby="generator-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Local tool</p>
+          <h2 id="generator-title">Password generator</h2>
+        </div>
+        <output class="length-output" id="length-output" for="length">24</output>
+      </div>
+
+      <label class="range-row" for="length">
+        <span>Length</span>
+        <input id="length" type="range" min="12" max="64" value="24">
+      </label>
+
+      <div class="options" aria-label="Password character options">
+        <label><input id="lowercase" type="checkbox" checked> Lowercase</label>
+        <label><input id="uppercase" type="checkbox" checked> Uppercase</label>
+        <label><input id="digits" type="checkbox" checked> Numbers</label>
+        <label><input id="symbols" type="checkbox" checked> Symbols</label>
+        <label class="wide"><input id="exclude-ambiguous" type="checkbox" checked> Avoid ambiguous characters</label>
+      </div>
+
+      <label class="sr-only" for="generated-password">Generated password</label>
+      <textarea id="generated-password" rows="2" readonly spellcheck="false" aria-describedby="generator-note"></textarea>
+      <p class="muted" id="generator-note">Generated locally with the browser cryptographic random source. It is not stored by this extension.</p>
+
+      <div class="actions">
+        <button class="primary" id="generate" type="button">Generate</button>
+        <button class="secondary" id="fill-generated" type="button" disabled>Fill password field</button>
+      </div>
+      <p class="muted" id="action-result" role="status"></p>
+    </section>
+  </main>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
