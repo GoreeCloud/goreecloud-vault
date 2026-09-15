@@ -1,0 +1,41 @@
+name: GoreeCloud Vault Firefox Extension
+
+on:
+  pull_request:
+    paths:
+      - 'firefox-extension/**'
+      - 'docs/VAULT-CLIENT-INTEGRATION-CONTRACT.md'
+      - '.github/workflows/goreecloud-vault-firefox-extension.yml'
+  push:
+    branches:
+      - main
+      - 'feature/**'
+    paths:
+      - 'firefox-extension/**'
+      - 'docs/VAULT-CLIENT-INTEGRATION-CONTRACT.md'
+      - '.github/workflows/goreecloud-vault-firefox-extension.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Firefox extension source tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout GoreeCloud Vault
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate Node.js test runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --version
+          node -e "if (Number(process.versions.node.split('.')[0]) < 20) process.exit(1)"
+
+      - name: Run Firefox extension tests
+        working-directory: firefox-extension
+        run: npm test
