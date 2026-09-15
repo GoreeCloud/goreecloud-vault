@@ -121,6 +121,19 @@ Server-owned user-facing surfaces must use current Glaze UI requirements. The pr
 
 The current native server foundation has no user-facing UI.
 
+## Supported browser client surfaces — planned
+
+GoreeCloud Vault must support two distinct first-party browser delivery surfaces that share the same authoritative Vault security, encryption, synchronization, item, device, and authorization model:
+
+1. **GoreeCloud Vault Firefox Extension** — a dedicated Firefox WebExtension providing secure origin-aware username/password autofill, inline and one-click credential suggestions, save/update prompts, Vault item access, configurable password and passphrase generation, passkey/WebAuthn flows, TOTP retrieval/fill, supported payment and identity autofill, quick Vault search, account/vault selection, lock/unlock, reauthentication, and security warnings.
+2. **Native GoreeCloud Browser integration** — GoreeCloud Vault functionality built directly into GoreeCloud Browser as a native first-party capability. GoreeCloud Browser must not require installation of the Firefox extension or another WebExtension to provide its supported Vault experience.
+
+The Firefox extension must follow least-privilege WebExtension permissions and conservative private-window behavior. Protected vault contents, master secrets, decryption keys, reusable authentication material, and plaintext credentials must not be written to ordinary browser storage, diagnostics, telemetry, crash reports, or logs. Any local cache must preserve the approved encrypted-client and lock boundaries.
+
+For native GoreeCloud Browser integration, Browser owns the native presentation and browser-event integration while GoreeCloud Vault remains the sole authority for protected credentials, passkeys, secrets, secure-autofill material, encryption, vault state, and credential authorization. Browser must consume explicit versioned Vault client capabilities, fail closed when required authorization or capability evidence is unavailable, and must not directly read the Vault database, create a second credential database, or durably persist plaintext Vault material as Browser-owned state.
+
+Both surfaces must preserve safe origin matching, device/session revocation, private-context isolation, offline/reconnect behavior where supported, security/privacy boundaries, update/rollback paths, and exact release evidence. Neither surface is currently represented by this specification as implemented, production accepted, or Stable.
+
 ## Release lifecycle
 
 Source validation, release acceptance, platform-system acceptance, and production acceptance are separate.
@@ -129,7 +142,7 @@ Stable requires exact-artifact evidence for applicable gates, including:
 
 - native implementation acceptance;
 - multi-user security;
-- real supported clients;
+- real supported clients, including the required first-party browser client surfaces when in release scope;
 - real WebAuthn/passkey flows;
 - GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, Glaze UI, GoreeCloud Mesh, and GoreeCloud Identity acceptance;
 - backup and destructive restore;
