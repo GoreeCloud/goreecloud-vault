@@ -1,7 +1,7 @@
 # GoreeCloud Vault Server — Feature Roadmap
 
 **Status:** Active roadmap control  
-**As of:** 2026-09-11  
+**As of:** 2026-09-15  
 **Authoritative product record:** Project Specification — GoreeCloud Vault  
 **Authoritative backend record:** Project Specification — Vault Server  
 **Canonical product-family repository:** GoreeCloud/goreecloud-vault  
@@ -25,6 +25,8 @@ The repository may maintain GoreeCloud Vault Server, GoreeCloud Vault Web, and s
 | FR-006 | Implement and validate the current GoreeCloud Platform Contract across GoreeCloud Manager, Privacy Shield, Wardveil Security, Everkeep, Glaze UI, GoreeCloud Mesh, and GoreeCloud Identity. | Critical | Blocked / incomplete |
 | FR-007 | Deliver real supported-client, WebAuthn/passkey, target-environment, migration/rollback, recovery, repository-governance, exact-release, and final Stable evidence. | Critical | Blocked / incomplete |
 | FR-008 | Reconcile the renamed product-family repository so current source metadata, documentation, Web/client boundaries, validation, and Drive records use `GoreeCloud/goreecloud-vault` while preserving legitimate server/service/image identifiers and historical repository references. | Critical | In progress |
+| FR-009 | Build, support, and validate a dedicated first-party **GoreeCloud Vault Firefox Extension** with secure origin-aware autofill, credential save/update flows, password and passphrase generation, passkeys/WebAuthn, TOTP, Vault search/quick access, lock/reauthentication, least-privilege WebExtension permissions, private-window safeguards, authenticated synchronization, encrypted-client boundaries, signing/update/rollback, and exact-client release evidence. | Critical | Planned / incomplete; product requirement is explicit. No Firefox extension implementation or Stable evidence is claimed. |
+| FR-010 | Provide and validate the versioned Vault client/API and authorization contracts required by **GoreeCloud Browser’s native Vault integration** without exposing the Vault database, decryption keys, or plaintext credential material directly to Browser and without creating a second authoritative credential store. | Critical | Planned / incomplete; native Browser integration remains a separate client implementation and acceptance obligation. |
 
 ## Maintenance and synchronization
 
